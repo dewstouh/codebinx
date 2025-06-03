@@ -21,3 +21,15 @@ export interface IUserResponse {
     isVerified: boolean;
     createdAt: Date;
 }
+
+export interface IUserAuthData {
+    user: IUserResponse;
+    token: string;
+}
+
+export interface IUserStats {
+    totalBins: number;
+    totalViews: number;
+    privateBins: number;
+    publicBins: number;
+  }

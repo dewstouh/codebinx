@@ -1,0 +1,9 @@
+@import "tailwindcss";
+
+/* Estilos base adicionales si son necesarios */
+body {
+  @apply bg-apple-gray-light text-apple-gray-dark dark:bg-apple-gray-dark dark:text-apple-gray-light;
+  font-family: theme('fontFamily.sans');
+  /* Transiciones suaves para el cambio de tema */
+  transition: background-color 0.3s ease, color 0.3s ease;
+}

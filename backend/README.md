@@ -110,7 +110,7 @@ Create a `.env` file in the `backend/` root directory based on `.env.example` (y
 
 1.  **Clone the repository:**
     ```bash
-    git clone <your-repository-url>
+    git clone github.com/dewstouh/codebinx
     cd codebinx/backend
     ```
 
