@@ -64,11 +64,11 @@ CodeBinX is a full-stack application designed as a modern, user-friendly alterna
 
 ## 📋 Project Structure
 
-CodeBinX/
-├── backend/     
-├── frontend/ 
-├── .gitignore
-└── README.md    
+CodeBinX
+- backend/     
+- frontend/ 
+- .gitignore
+- README.md    
 
 
 ## ⚙ Prerequisites
