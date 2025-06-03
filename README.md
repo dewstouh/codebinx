@@ -75,6 +75,7 @@ CodeBinX
 
 * Node.js (v18.x or later recommended)
 * npm (v8.x or later) or yarn
+* pnpm
 * MongoDB (running locally or a cloud instance like MongoDB Atlas)
 * Git
 
@@ -89,7 +90,7 @@ CodeBinX
 2.  **Backend Setup:**
     ```bash
     cd backend
-    npm install
+    pnpm install
     ```
     * Create a `.env` file in the `backend/` directory. Copy the contents of `backend/.env.example` (you should create this file) and fill in your actual credentials and settings. Key variables include:
         * `PORT` (e.g., `5000`)
@@ -106,7 +107,7 @@ CodeBinX
 3.  **Frontend Setup:**
     ```bash
     cd ../frontend # or cd frontend from the root
-    npm install
+    pnpm install
     ```
     * Create a `.env` file in the `frontend/` directory. Copy the contents of `frontend/.env.example` (you should create this file) and fill in your settings. Key variables include:
         * `VITE_API_BASE_URL` (or `REACT_APP_API_BASE_URL` for CRA) pointing to your backend API (e.g., `http://localhost:5000/api`).

@@ -116,7 +116,7 @@ Create a `.env` file in the `backend/` root directory based on `.env.example` (y
 
 2.  **Install dependencies:**
     ```bash
-    npm install
+    pnpm install
     # or
     # yarn install
     ```
