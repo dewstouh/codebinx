@@ -4,8 +4,8 @@
     "version": "1.0.0",
     "description": "CodeBinX | Share code privately & easily - Fullstack Application",
     "workspaces": [
-        "frontend",
         "backend",
+        "frontend",
         "shared"
     ],
     "engines": {
