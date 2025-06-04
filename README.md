@@ -1,158 +1,190 @@
-# CodeBinX - A Modern Code Sharing Platform
+# 🌐 CodeBinX
 
-CodeBinX is a full-stack application designed as a modern, user-friendly alternative to Pastebin or Sourcebin. It allows users to easily share snippets of code or text, with features for both anonymous users and registered accounts. The frontend aims for a sleek, Apple-inspired design with smooth animations, while the backend provides a robust and secure API.
+**The modern way to share, store, and collaborate on code snippets, powered by modern tech, built for developers, by a developer.**
 
-## 📋 Core Features
-
-**General:**
-* Share text and code snippets ("bins").
-* Responsive design for a seamless experience on all devices.
-
-**Frontend (React & Tailwind CSS):**
-* Apple-inspired, clean, and minimalist user interface.
-* Smooth animations and transitions for an enhanced user experience.
-* Intuitive navigation.
-* Integrated code editor for creating and viewing bins with syntax highlighting.
-* User registration and login forms.
-* Google OAuth sign-in option.
-* Dashboard for registered users to manage their bins and profile.
-* Dark mode support.
-
-**Backend (Node.js, Express, MongoDB):**
-* Secure RESTful API.
-* User authentication:
-    * Local registration (username, email, password).
-    * Local login with email and password.
-    * Google OAuth 2.0 integration.
-    * JWT (JSON Web Tokens) for session management.
-* Bin Management:
-    * Create, retrieve, update, and delete bins.
-    * Support for anonymous and user-owned bins.
-    * Optional password protection for bins.
-    * View count tracking.
-    * Configurable bin expiration with automatic cleanup of expired bins.
-* User Account Features:
-    * Update user profiles.
-    * View user statistics (total bins, views, etc.).
-    * Secure account deletion (includes deletion of associated bins).
-* Security: Input validation, rate limiting, security headers (Helmet), CORS.
-* Logging: HTTP request logging and application-level event logging.
-
-## 🔨 Tech Stack
-
-**Frontend:**
-* **Framework/Library:** React
-* **Language:** TypeScript
-* **Styling:** Tailwind CSS
-* **Build Tool:** Vite (or Create React App)
-* **Routing:** React Router
-* **State Management:** Context API (potentially Zustand, Jotai, or Redux Toolkit for larger state needs)
-* **Data Fetching:** React Query (TanStack Query) or SWR (recommended) / Axios or Fetch API
-* **Animation:** Framer Motion (recommended), CSS Transitions
-
-**Backend:**
-* **Runtime:** Node.js
-* **Framework:** Express.js
-* **Language:** TypeScript
-* **Database:** MongoDB (with Mongoose ODM)
-* **Authentication:** Passport.js (handling JWT and Google OAuth 2.0 strategies)
-* **Password Hashing:** `bcryptjs`
-* **Input Validation:** `express-validator`
-* **Unique IDs:** `nanoid` (for Bin IDs)
-* **Scheduled Jobs:** `node-cron`
-* **Core Libraries:** `helmet`, `compression`, `cors`, `morgan`, `express-rate-limit`, `dotenv`
-
-## 📋 Project Structure
-
-CodeBinX
-- backend/     
-- frontend/ 
-- .gitignore
-- README.md    
+CodeBinX is a full-stack open-source alternative to Pastebin/Sourcebin with authentication, bin management, private sharing, syntax highlighting, and a beautiful UI. Built using modern technologies like TypeScript, Next.js, MongoDB, and Monaco Editor.
 
 
-## ⚙ Prerequisites
+## 📦 Monorepo Structure
 
-* Node.js (v18.x or later recommended)
-* npm (v8.x or later) or yarn
-* pnpm
-* MongoDB (running locally or a cloud instance like MongoDB Atlas)
-* Git
+This repository uses a monorepo layout to organize the frontend, backend, and shared logic.
 
-## Setup and Installation
+```
+codebinx/
+├── backend/       # Express + MongoDB REST API
+├── frontend/      # Next.js + Tailwind CSS client app
+├── shared/        # Shared types/interfaces/utilities
+├── package.json   # Root package.json with workspaces
+├── tsconfig.json  # Root TS config for project references
+└── README.md      # This file
+```
 
-1.  **Clone the repository:**
-    ```bash
-    git clone https://github.com/dewstouh/codebinx
-    cd CodeBinX
-    ```
 
-2.  **Backend Setup:**
-    ```bash
-    cd backend
-    pnpm install
-    ```
-    * Create a `.env` file in the `backend/` directory. Copy the contents of `backend/.env.example` (you should create this file) and fill in your actual credentials and settings. Key variables include:
-        * `PORT` (e.g., `5000`)
-        * `MONGODB_URI`
-        * `JWT_SECRET`
-        * `JWT_EXPIRES_IN`
-        * `GOOGLE_CLIENT_ID`
-        * `GOOGLE_CLIENT_SECRET`
-        * `CORS_ORIGIN` (URL of your frontend, e.g., `http://localhost:5173`)
-        * (See `backend/README.md` or source code for a full list)
-    * Ensure your MongoDB server is running and accessible.
-    * Create a `logs/` directory inside `backend/` if it doesn't exist: `mkdir logs`
 
-3.  **Frontend Setup:**
-    ```bash
-    cd ../frontend # or cd frontend from the root
-    pnpm install
-    ```
-    * Create a `.env` file in the `frontend/` directory. Copy the contents of `frontend/.env.example` (you should create this file) and fill in your settings. Key variables include:
-        * `VITE_API_BASE_URL` (or `REACT_APP_API_BASE_URL` for CRA) pointing to your backend API (e.g., `http://localhost:5000/api`).
-        * Potentially other frontend-specific API keys if needed.
+## 🧠 Tech Stack Overview
 
-## 🏃‍♂️ Running the Application
+### 💻 Backend
 
-You'll need to run both the backend and frontend servers concurrently in separate terminal windows.
+- **Runtime:** Node.js
+- **Framework:** Express.js
+- **Database:** MongoDB + Mongoose
+- **Auth:** Passport.js + JWT + Google OAuth
+- **Validation:** express-validator
+- **Other:** bcryptjs, nanoid, node-cron, dotenv, helmet, morgan
 
-1.  **Start the Backend Server:**
-    ```bash
-    cd backend
-    npm run dev
-    ```
-    The backend will typically run on the port specified in `backend/.env` (e.g., `http://localhost:5000`).
+### 🌍 Frontend
 
-2.  **Start the Frontend Development Server:**
-    ```bash
-    cd ../frontend # or cd frontend from the root
-    npm run dev
-    ```
-    The frontend development server will typically open in your browser (e.g., `http://localhost:5173` for Vite or `http://localhost:3000` for CRA).
+- **Framework:** Next.js 14 (App Router)
+- **Language:** TypeScript
+- **Styling:** Tailwind CSS, clsx, tailwind-merge
+- **Editor:** Monaco Editor
+- **Animations:** Framer Motion
+- **UI Components:** Radix UI, lucide-react
+- **Auth:** Google OAuth + JWT client handling
 
-## ✅ Available Scripts
+### 🔄 Shared
 
-Each sub-project (`backend/` and `frontend/`) has its own `package.json` with specific scripts. Refer to them for details. Common scripts include:
+- **@codebinx/shared**: Shared types and interfaces between backend and frontend using workspaces
 
-* **Backend:**
-    * `npm run dev`: Starts the backend server in development mode (usually with `nodemon` and `ts-node`).
-    * `npm run build`: Compiles TypeScript to JavaScript for production (e.g., using `tsc && tsc-alias`).
-    * `npm start`: Runs the compiled backend code.
-    * `npm run lint`: Lints the backend codebase.
-* **Frontend:**
-    * `npm run dev`: Starts the frontend development server (e.g., Vite or CRA).
-    * `npm run build`: Bundles the frontend application for production.
-    * `npm run lint`: Lints the frontend codebase.
 
-## 💛 Contributing
+## 🚀 Getting Started
 
-Thanks for using my project! If you would like to support me, you can do it by donating [through PayPal!](https://paypal.me/elmundodeniby).
+### 📁 Clone the Repository
 
-## 🔰 License
+```bash
+git clone https://github.com/dewstouh/codebinx.git
+cd codebinx
+```
 
-This project is under the MIT License
+### 🧩 Install Dependencies
 
----
+```bash
+pnpm install
+# or
+yarn install
+# or
+npm install
+```
 
-*Remember to create separate, more detailed `README.md` files within the `backend/` and `frontend/` directories that are specific to their setup, architecture, and scripts.*
+> Uses **workspaces**, so installing in root installs all (`frontend`, `backend`, `shared`) at once.
+
+
+
+## 🧪 Development Workflow
+
+### 1. Start the Backend
+
+```bash
+cd backend
+pnpm dev
+```
+
+Make sure MongoDB is running locally or use MongoDB Atlas.
+
+### 2. Start the Frontend
+
+```bash
+cd ../frontend
+pnpm dev
+```
+
+Visit [http://localhost:3000](http://localhost:3000) to view the app.
+
+### 3. Environment Setup
+
+Create `.env` files in:
+
+* `/backend/` → for backend config
+* `/frontend/` → at least `NEXT_PUBLIC_API_URL=http://localhost:3001`
+
+
+
+## 📜 Scripts
+
+From the root, you can run:
+
+```bash
+pnpm build:all     # Builds backend + frontend + shared
+pnpm dev:backend   # Starts backend dev server
+pnpm dev:frontend  # Starts frontend dev server
+pnpm lint          # Runs lint across all packages
+```
+
+Custom workspace scripts defined in each package.
+
+
+
+## 🧱 Architecture Principles
+
+- **Modular Design:** Clear separation of frontend/backend/shared
+- **Scalable:** Ready for real-world usage and deployment
+- **Typed:** Full TypeScript coverage across the stack
+- **Reusable:** Shared logic through internal workspace `@codebinx/shared`
+
+
+
+## 🚀 Deployment
+
+* Backend can be deployed to any Node.js-compatible server (Render, Railway, Heroku, etc.)
+* Frontend is optimized for Vercel (supports App Router, dynamic routes, etc.)
+
+> Environment variables must be configured properly in both environments.
+
+
+
+## 📄 Documentation
+
+* [Backend README](./backend/README.md)
+* [Frontend README](./frontend/README.md)
+* [API Docs (soon)](https://codebinx.elmundodeniby.com/docs)
+
+
+
+## 🔧 Roadmap Highlights
+
+* [x] Bin creation and syntax highlighting
+* [x] Google login + local auth
+* [x] Password-protected bins
+* [x] User dashboards
+* [x] Expiration logic and cleanup
+* [ ] Docker installing
+* [ ] CLI Commands to make everything easier
+* [ ] Real-time editing
+* [ ] Comments and reactions on bins
+* [ ] Bin forking and templates
+* [ ] Public user profiles
+
+
+
+## 🤝 Contributing
+
+Contributions are welcome!
+
+1. Fork the repo
+2. Create your feature branch: `git checkout -b feature/awesome`
+3. Commit your changes: `git commit -m 'feat: add awesome feature'`
+4. Push to the branch: `git push origin feature/awesome`
+5. Open a Pull Request
+
+> Follow code style from each workspace. Type-safe. Tested. Documented.
+
+
+
+## 📬 Contact
+
+* 🌐 Website: [elmundodeniby.com](https://elmundodeniby.com)
+* 🐙 GitHub: [@dewstouh](https://github.com/dewstouh)
+* 📩 Email: [support@elmundodeniby.com](mailto:support@elmundodeniby.com)
+* 💬 Discord: [Join community](https://discord.gg/codebinx)
+
+
+
+## 📄 License
+
+This project is licensed under the MIT License – see the [LICENSE](./LICENSE) file.
+
+
+**Built with rage, love, and TypeScript by Diego Rodríguez.**
+[codebinx.elmundodeniby.com](https://codebinx.elmundodeniby.com)
+
+

@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
 import User from '@/models/User';
-import { IUser, IUserResponse } from '@/types/user';
+import { IUser, IUserResponse } from '@codebinx/shared';
 
 export class AuthService {
     public generateToken(userId: string): string {

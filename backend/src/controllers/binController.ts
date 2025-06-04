@@ -9,6 +9,7 @@ export class BinController {
         try {
             const { title, content, description, language, isPrivate, password } = req.body;
 
+
             const bin = await binService.createBin({
                 title,
                 content,
@@ -36,6 +37,34 @@ export class BinController {
             const bin = await binService.getBin(binId, password, req.user?._id);
 
             res.json({ bin });
+        } catch (err: unknown) {
+            if (err instanceof Error) {
+                if (err.message === 'Bin not found') {
+                    return res.status(404).json({ error: err.message });
+                }
+                if (
+                    err.message === 'Password required' ||
+                    err.message === 'Invalid password'
+                ) {
+                    return res.status(401).json({ error: err.message });
+                }
+
+                next(err)
+            }
+        }
+    }
+
+    async getBins(req: Request, res: Response, next: NextFunction) {
+        try {
+            const page = parseInt(req.query.page as string) || 1;
+            const limit = parseInt(req.query.limit as string) || 10;
+
+            const isPublic = req.query.public === "true";
+
+            const filter = isPublic ? { password: { $exists: false } } : {};
+
+            const bins = await binService.getBins(page, limit, filter);
+            res.json(bins);
         } catch (error) {
             next(error);
         }
@@ -82,19 +111,4 @@ export class BinController {
         }
     }
 
-    async checkPassword(req: Request, res: Response, next: NextFunction) {
-        try {
-            const { binId } = req.params;
-            const bin = await Bin.findOne({ binId }).select('password');
-
-            if (!bin) {
-                res.status(404).json({ message: 'Bin not found' });
-                return;
-            }
-
-            res.json({ hasPassword: !!bin.password });
-        } catch (error) {
-            next(error);
-        }
-    }
 }

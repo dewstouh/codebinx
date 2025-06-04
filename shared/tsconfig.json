@@ -9,15 +9,15 @@
         "declarationMap": true, 
         "sourceMap": true,
         "composite": true,
-        "outDir": "./dist",
-        "rootDir": "./src", 
+        "outDir": "dist",
+        "rootDir": "src", 
         "strict": true,
         "esModuleInterop": true,
         "skipLibCheck": true, 
         "moduleResolution": "node"
     },
     "include": [
-        "src/**/*.ts"
+        "src"
     ],
     "exclude": [
         "node_modules",

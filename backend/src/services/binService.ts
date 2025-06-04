@@ -1,6 +1,6 @@
 import Bin from '@/models/Bin';
 import User from '@/models/User';
-import { IBin, IBinResponse } from '@/types/bin';
+import { IBin, IBinResponse } from '@codebinx/shared';
 
 export class BinService {
     private async formatBinResponse(bin: IBin, includeContent: boolean = true): Promise<IBinResponse> {
@@ -112,6 +112,32 @@ export class BinService {
             },
         };
     }
+
+    async getBins(page: number = 1, limit: number = 10, filter = {}){
+        const skip = (page - 1) * limit;
+
+        const bins = await Bin.find(filter)
+            .sort({ createdAt: -1 })
+            .skip(skip)
+            .limit(limit)
+            .lean();
+
+        const total = await Bin.countDocuments();
+
+        const formattedBins = await Promise.all(
+            bins.map(bin => this.formatBinResponse(bin as IBin, false))
+        );
+
+        return {
+            bins: formattedBins,
+            pagination: {
+                page,
+                limit,
+                total,
+                pages: Math.ceil(total / limit),
+            },
+        };
+    } 
 
     async updateBin(binId: string, userId: string, updates: Partial<{
         title: string;

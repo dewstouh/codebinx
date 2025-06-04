@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import passport from 'passport';
-import { IUser } from '@/types/user';
+import { IUser } from '@codebinx/shared';
 
 declare global {
     namespace Express {

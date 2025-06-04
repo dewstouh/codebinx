@@ -4,7 +4,7 @@ import { authenticate } from '@/middleware/auth';
 import { body } from 'express-validator';
 import { handleValidationErrors } from '@/middleware/validation';
 
-const router = Router();
+const router: Router = Router();
 const userController = new UserController();
 
 const validateUpdateProfile = [

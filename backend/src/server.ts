@@ -1,5 +1,5 @@
 import 'dotenv/config'
-import express from 'express';
+import express, { Application } from 'express';
 import mongoose from 'mongoose';
 import cors from 'cors';
 import helmet from 'helmet';
@@ -15,9 +15,7 @@ import userRoutes from '@/routes/user';
 import { connectDatabase } from '@/config/database';
 import '@/config/passport';
 
-console.log(process.env.PORT)
-
-const app = express();
+const app:Application = express();
 const PORT = process.env.PORT || 3000;
 
 // Rate limiting
@@ -39,7 +37,7 @@ app.use(cors({
 app.use(morgan('combined'));
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true }));
-app.use(limiter);
+// app.use(limiter);
 app.use(passport.initialize());
 
 // Health check

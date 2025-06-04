@@ -1,6 +1,6 @@
 import mongoose, { Schema } from 'mongoose';
 import bcrypt from 'bcryptjs';
-import { IUser } from '@/types/user';
+import { IUser } from '@codebinx/shared';
 
 const UserSchema = new Schema<IUser>({
     username: {

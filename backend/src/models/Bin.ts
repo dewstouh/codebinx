@@ -1,7 +1,7 @@
 import mongoose, { Schema } from 'mongoose';
 import bcrypt from 'bcryptjs';
 import { nanoid } from 'nanoid';
-import { IBin } from '@/types/bin';
+import { IBin } from '@codebinx/shared';
 
 const BinSchema = new Schema<IBin>({
     binId: {

@@ -8,17 +8,19 @@
         "backend",
         "shared"
     ],
+    "engines": {
+        "npm": "please-use-pnpm",
+        "pnpm":">=8.0.0"
+    },
     "scripts": {
-        "dev:frontend": "npm run dev --workspace=frontend",
-        "dev:backend": "npm run dev --workspace=backend",
-        "build:frontend": "npm run build --workspace=frontend",
-        "build:backend": "npm run build --workspace=backend",
-        "build:shared": "npm run build --workspace=shared",
-        "build:all": "npm run build:shared && npm run build:backend && npm run build:frontend",
-        "start:backend": "npm start --workspace=backend",
-        "dev": "concurrently \"npm:dev:backend\" \"npm:dev:frontend\"",
-        "lint": "npm run lint --workspaces --if-present",
-        "test": "npm test --workspaces --if-present"
+        "dev:frontend": "pnpm --filter codebinx-frontend dev",
+        "dev:backend": "pnpm --filter codebinx-backend dev",
+        "build:frontend": "pnpm --filter codebinx-frontend build",
+        "build:backend": "pnpm --filter codebinx-backend build",
+        "build:shared": "pnpm --filter shared build",
+        "build:all": "pnpm build:shared && pnpm build:backend && pnpm build:frontend",
+        "start:backend": "pnpm --filter codebinx-backend start",
+        "dev": "concurrently -n FRONTEND,BACKEND -c blue,green \"pnpm dev:frontend\" \"pnpm dev:backend\""
     },
     "devDependencies": {
         "concurrently": "^8.2.2",
