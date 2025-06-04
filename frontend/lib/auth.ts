@@ -20,3 +20,8 @@ export const removeAuthToken = (): void => {
 export const isAuthenticated = (): boolean => {
   return getAuthToken() !== null
 }
+
+export const handleGoogleLogin = ():void => {
+  const base = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000"
+  window.location.href = `${base}/api/auth/google`
+}

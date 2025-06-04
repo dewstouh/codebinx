@@ -1,8 +1,10 @@
 # 🌐 CodeBinX
 
-**The modern way to share, store, and collaborate on code snippets, powered by modern tech, built for developers, by a developer.**
+**CodeBinX is the all-in-one solution to create, protect, and manage code snippets.**
 
-CodeBinX is a full-stack open-source alternative to Pastebin/Sourcebin with authentication, bin management, private sharing, syntax highlighting, and a beautiful UI. Built using modern technologies like TypeScript, Next.js, MongoDB, and Monaco Editor.
+Forget outdated pastebins. CodeBinX offers full-stack snippet management with syntax highlighting, authentication, private bins, user dashboards, and full API support — all in one.
+
+🔗 [Live Demo](https://codebinx.elmundodeniby.com)
 
 
 ## 📦 Monorepo Structure
@@ -140,19 +142,19 @@ Custom workspace scripts defined in each package.
 
 
 
-## 🔧 Roadmap Highlights
+## 🔧 Roadmap
 
-* [x] Bin creation and syntax highlighting
-* [x] Google login + local auth
-* [x] Password-protected bins
-* [x] User dashboards
-* [x] Expiration logic and cleanup
-* [ ] Docker installing
-* [ ] CLI Commands to make everything easier
-* [ ] Real-time editing
-* [ ] Comments and reactions on bins
-* [ ] Bin forking and templates
-* [ ] Public user profiles
+- ✅ Bin creation with syntax highlighting (Core)
+- ✅ Auth system: Google OAuth & local login (Security)
+- ✅ Password-protected bins (Privacy)
+- ✅ User dashboards with bin stats (UX)
+- ✅ Bin expiration & automatic cleanup (Maintenance)
+- 🔜 Docker support (DevOps)
+- 🔜 CLI tool for bin management (DX)
+- 🔜 Real-time collaborative editing (Advanced Feature)
+- 🔜 Comments & reactions (Community)
+- 🔜 Bin templates and forking (Productivity)
+- 🔜 Public user profiles with social bins (Engagement)
 
 
 
@@ -173,6 +175,7 @@ Contributions are welcome!
 ## 📬 Contact
 
 * 🌐 Website: [elmundodeniby.com](https://elmundodeniby.com)
+* 🔵 LinkedIn: [LinkedIn](https://linkedin.com/in/bydiego)
 * 🐙 GitHub: [@dewstouh](https://github.com/dewstouh)
 * 📩 Email: [support@elmundodeniby.com](mailto:support@elmundodeniby.com)
 * 💬 Discord: [Join community](https://discord.gg/codebinx)
@@ -184,7 +187,6 @@ Contributions are welcome!
 This project is licensed under the MIT License – see the [LICENSE](./LICENSE) file.
 
 
-**Built with rage, love, and TypeScript by Diego Rodríguez.**
-[codebinx.elmundodeniby.com](https://codebinx.elmundodeniby.com)
+by [Diego Rodríguez](https://github.com/dewstouh) — [justdiego.com](https://justdiego.com)
 
 
