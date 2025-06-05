@@ -8,6 +8,7 @@ import { SiteHeader } from "@/components/header"
 import { Eye, Calendar, User, Lock, Share2, Download, Copy, CheckCircle, Maximize2, ArrowLeft } from "lucide-react"
 import { useBinActions } from "../_hooks/useBinActions"
 import type { IBinResponse } from "@codebinx/shared"
+import LoadingEditor from "@/app/(bins)/_components/LoadingEditor"
 
 export default function BinEditor({ bin }: { bin: IBinResponse }) {
     const {
@@ -105,12 +106,7 @@ export default function BinEditor({ bin }: { bin: IBinResponse }) {
 
                     <div className={`${isFullscreen ? "h-full" : "h-[calc(100vh-200px)]"} w-full relative`}>
                         {editorLoading && (
-                            <div className="absolute inset-0 bg-gray-900 flex items-center justify-center z-10">
-                                <div className="text-white text-center">
-                                    <CheckCircle className="w-8 h-8 mx-auto mb-2 animate-pulse" />
-                                    <p>Loading editor...</p>
-                                </div>
-                            </div>
+                            <LoadingEditor/>
                         )}
                         <Editor
                             height="100%"

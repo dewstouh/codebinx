@@ -15,7 +15,7 @@ export default function BinPassword({
     password: string
     onPasswordChange: (val: string) => void
     loading: boolean
-    error: string
+    error: string | null
 }) {
     return (
         <div className="min-h-screen bg-gray-50 flex items-center justify-center p-6">
@@ -25,7 +25,7 @@ export default function BinPassword({
                         <svg className="w-8 h-8" viewBox="0 0 24 24" fill="none"><path d="M12 2a10 10 0 100 20 10 10 0 000-20z" /></svg>
                     </div>
                     <CardTitle className="text-2xl font-bold">Protected Bin</CardTitle>
-                    <CardDescription className="text-blue-100">This bin requires a password to view</CardDescription>
+                    {error && (<CardDescription className="text-blue-100">{error}</CardDescription>)}
                 </CardHeader>
                 <CardContent className="p-8">
                     {error && (

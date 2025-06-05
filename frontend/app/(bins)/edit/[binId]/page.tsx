@@ -11,10 +11,11 @@ import { isAuthenticated } from "@/lib/auth"
 import { IBinResponse as Bin, IBinResponse } from '@codebinx/shared'
 import { CodeEditor } from "../../_components/CodeEditor"
 import { BinSettings } from "../../_components/BinSettings"
-import BinLoading from "../../_components/BinLoading"
 import { ErrorState } from "./_components/ErrorState"
 import { useApi } from "@/hooks/useApi"
-import BinPassword from "../../bin/[binId]/_components/BinPassword"
+import BinPassword from "../../_components/BinPassword"
+import { verifyBinPassword } from "../../_lib/verifyPassword"
+import { Loading } from "@/app/_components/Loading"
 
 // COMPONENT
 export default function EditBinPage() {
@@ -28,6 +29,7 @@ export default function EditBinPage() {
   const [saving, setSaving] = useState(false)
   const [deleting, setDeleting] = useState(false)
   const [success, setSuccess] = useState("")
+  const [localError, setLocalError] = useState("")
   const [showPassword, setShowPassword] = useState(false)
   const [editorLoading, setEditorLoading] = useState(true)
   const [passwordChanged, setPasswordChanged] = useState(false)
@@ -63,23 +65,16 @@ export default function EditBinPage() {
     setPasswordLoading(true)
 
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000"}/api/bins/${binId}`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ password }),
-      })
-
-      if (!res.ok) throw new Error("Invalid password")
-
-      const data = await res.json()
-
-      // 👇 mete directamente el bin en el estado
-      setOriginalBin(data.bin)
-      setFormData(data.bin)
+      const bin = await verifyBinPassword(binId, password)
+      setOriginalBin(bin)
+      setFormData(bin)
       setPasswordRequired(false)
     } catch (err) {
-      console.error(err)
-    } finally {
+      if (err instanceof Error && err.message === "INVALID_PASSWORD") {
+        setLocalError("Invalid password")
+      } else {
+        setLocalError("Something went wrong")
+      }
       setPasswordLoading(false)
     }
   }
@@ -150,14 +145,14 @@ export default function EditBinPage() {
 
   const handleEditorDidMount = () => setEditorLoading(false)
 
-  if (loading) return <BinLoading />
+  if (loading) return <Loading />
   if (passwordRequired) return (
     <BinPassword
       onSubmit={handlePasswordSubmit}
       password={password}
       onPasswordChange={setPassword}
       loading={passwordLoading}
-      error={"This bin requires a password."}
+      error={localError}
     />
   )
   if (error && !formData && status !== 401) return <ErrorState message={error} />

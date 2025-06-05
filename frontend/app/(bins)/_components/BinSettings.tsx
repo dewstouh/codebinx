@@ -122,7 +122,7 @@ export const BinSettings = ({
                                 }
                                 className="pr-12"
                                 value={formData.password}
-                                onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                                onChange={handlePasswordChange}
                             />
                             <Button
                                 type="button"

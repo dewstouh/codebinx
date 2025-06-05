@@ -5,6 +5,8 @@ import { Card, CardHeader } from "@/components/ui/card"
 import Editor from "@monaco-editor/react"
 import { Code } from "lucide-react"
 import { languages } from "@codebinx/shared"
+import { Loading } from "@/app/_components/Loading"
+import LoadingEditor from "./LoadingEditor"
 
 interface Props {
     formData: any
@@ -36,12 +38,7 @@ export const CodeEditor = ({ formData, handleEditorChange, handleEditorDidMount,
 
         <div className="h-[600px] w-full relative">
             {editorLoading && (
-                <div className="absolute inset-0 bg-gray-900 flex items-center justify-center z-10">
-                    <div className="text-white text-center">
-                        <Code className="w-8 h-8 mx-auto mb-2 animate-pulse" />
-                        <p>Loading editor...</p>
-                    </div>
-                </div>
+                <LoadingEditor/>
             )}
             <Editor
                 height="100%"
