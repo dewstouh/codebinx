@@ -122,7 +122,7 @@ export class BinService {
             .limit(limit)
             .lean();
 
-        const total = await Bin.countDocuments();
+        const total = await Bin.countDocuments(filter);
 
         const formattedBins = await Promise.all(
             bins.map(bin => this.formatBinResponse(bin as IBin, false))

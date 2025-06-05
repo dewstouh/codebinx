@@ -125,7 +125,7 @@ Aquí tienes el tech stack en inglés, limpio y listo para copiar y pegar en tu 
    
    Create a `.env` file in the root directory:
    ```env
-   NEXT_PUBLIC_API_URL=http://localhost:3001
+   NEXT_PUBLIC_API_URL=http://localhost:3000
    ```
 
 4. **Start the development server**
@@ -137,7 +137,7 @@ Aquí tienes el tech stack en inglés, limpio y listo para copiar y pegar en tu 
 
 5. **Open your browser**
    
-   Navigate to [http://localhost:3000](http://localhost:3000)
+   Navigate to [http://localhost:5000](http://localhost:5000)
 
 ## 📁 Project Structure
 

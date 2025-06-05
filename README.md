@@ -175,7 +175,7 @@ Contributions are welcome!
 ## 📬 Contact
 
 * 🌐 Website: [elmundodeniby.com](https://elmundodeniby.com)
-* 🔵 LinkedIn: [LinkedIn](https://linkedin.com/in/bydiego)
+* 🔵 LinkedIn: [linkedin.com/in/bydiego](https://linkedin.com/in/bydiego)
 * 🐙 GitHub: [@dewstouh](https://github.com/dewstouh)
 * 📩 Email: [support@elmundodeniby.com](mailto:support@elmundodeniby.com)
 * 💬 Discord: [Join community](https://discord.gg/codebinx)
