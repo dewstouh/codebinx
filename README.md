@@ -1,3 +1,18 @@
+<p align="center">
+  <a href="https://github.com/dewstouh/CodeBinX">
+    <img alt="License" src="https://img.shields.io/github/license/dewstouh/CodeBinX" />
+  </a>
+  <a href="https://github.com/dewstouh/CodeBinX">
+    <img alt="Last Commit" src="https://img.shields.io/github/last-commit/dewstouh/CodeBinX" />
+  </a>
+  <a href="https://github.com/dewstouh/CodeBinX/issues">
+    <img alt="Issues" src="https://img.shields.io/github/issues/dewstouh/CodeBinX" />
+  </a>
+  <a href="https://github.com/dewstouh/CodeBinX/stargazers">
+    <img alt="Stars" src="https://img.shields.io/github/stars/dewstouh/CodeBinX?style=social" />
+  </a>
+</p>
+
 # 🌐 CodeBinX
 
 **CodeBinX is the all-in-one solution to create, protect, and manage code snippets.**
