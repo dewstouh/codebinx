@@ -75,8 +75,6 @@ BinSchema.methods.comparePassword = async function (candidatePassword: string): 
     return bcrypt.compare(candidatePassword, this.password);
 };
 
-// Index for efficient queries
-BinSchema.index({ binId: 1 });
 BinSchema.index({ author: 1 });
 BinSchema.index({ createdAt: -1 });
 BinSchema.index({ expiresAt: 1 }, { expireAfterSeconds: 0 });
