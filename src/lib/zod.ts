@@ -1,5 +1,6 @@
 import { ZodTypeAny, ZodError, z } from "zod"
 import { NextResponse } from "next/server"
+import APIResponse from "@/lib/api/response";
 
 export function parseOrBadRequest<S extends ZodTypeAny>(
     schema: S,

@@ -4,6 +4,7 @@ import { GetBinsParams, GetBinsParamsSchema } from '@/zod/getBinParams';
 import { auth } from '@clerk/nextjs/server';
 import { CreateBinSchema } from '@/zod/createBinSchema';
 import { parseOrBadRequest } from '@/lib/zod';
+import APIResponse from '@/lib/api/response';
 
 export async function GET(req: NextRequest) {
     const { searchParams } = new URL(req.url);
@@ -45,7 +46,7 @@ export async function POST(req: Request) {
         return new APIResponse()
         .status(201)
         .json(bin)
-        
+
     } catch (err) {
         console.error('[POST /api/bins]', err);
         return new APIResponse()

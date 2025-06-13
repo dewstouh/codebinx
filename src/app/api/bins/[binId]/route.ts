@@ -1,3 +1,4 @@
+import APIResponse from "@/lib/api/response";
 import { comparePassword } from "@/lib/password";
 import { parseOrBadRequest } from "@/lib/zod";
 import { getBin } from "@/services/bin.service";

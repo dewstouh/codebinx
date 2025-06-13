@@ -14,7 +14,7 @@ export default class APIResponse {
     private payload: Payload
 
     constructor() {
-        this.payload = { status: 200, data: {} }
+        this.payload = { status: 200 }
     }
 
     status(code:number){
@@ -50,9 +50,12 @@ export default class APIResponse {
     }
 
     json(data?: unknown) {
-        if (data !== undefined) this.payload.data = data
+        const responsePayload = {
+            ...this.payload,
+            ...(data || {})
+          }
 
-        return NextResponse.json(this.payload, {
+        return NextResponse.json(responsePayload, {
             status: this.payload.status,
         })
     }
