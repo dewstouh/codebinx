@@ -1,12 +1,11 @@
 import { Badge } from "@/components/ui/badge"
 import { Card } from "@/components/ui/card"
-import { Eye, User, Clock, ExternalLink, MoreHorizontal, Edit, Copy, Trash2 } from "lucide-react"
+import { Eye, User, Clock, ExternalLink, MoreHorizontal, Edit, Trash2 } from "lucide-react"
 import { formatTimeAgo, getLanguageColor } from "@/lib/utils"
 import Link from "next/link"
 import { CompleteBin } from "@/zod/prisma"
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator } from "@/components/ui/dropdown-menu"
 import { Button } from "@/components/ui/button"
-import { copyToClipboard } from "@/zod/utils/copyToClipboard"
 
 export default function BinCard({ bin }: { bin: CompleteBin }) {
     return (
@@ -21,32 +20,6 @@ export default function BinCard({ bin }: { bin: CompleteBin }) {
                             {bin.language}
                         </Badge>
                     </div>
-                    <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
-                            <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
-                                <MoreHorizontal className="h-4 w-4" />
-                            </Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent align="end">
-                            <DropdownMenuItem>
-                                <ExternalLink className="mr-2 h-4 w-4" />
-                                View
-                            </DropdownMenuItem>
-                            <DropdownMenuItem>
-                                <Edit className="mr-2 h-4 w-4" />
-                                Edit
-                            </DropdownMenuItem>
-                            <DropdownMenuItem onClick={() => copyToClipboard(`https://codebinx.com/bin/${bin.id}`)}>
-                                <Copy className="mr-2 h-4 w-4" />
-                                Copy Link
-                            </DropdownMenuItem>
-                            <DropdownMenuSeparator />
-                            <DropdownMenuItem className="text-red-600">
-                                <Trash2 className="mr-2 h-4 w-4" />
-                                Delete
-                            </DropdownMenuItem>
-                        </DropdownMenuContent>
-                    </DropdownMenu>
 
                     <p className="text-gray-600 text-sm mb-4 line-clamp-2">
                         {bin.description || "No description"}
@@ -79,6 +52,30 @@ export default function BinCard({ bin }: { bin: CompleteBin }) {
                             <Clock className="h-3 w-3 mr-1" />
                             <span>{formatTimeAgo(bin.createdAt.toString())}</span>
                         </div>
+
+                        
+                        <DropdownMenu>
+                            <DropdownMenuTrigger asChild>
+                                <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
+                                    <MoreHorizontal className="h-4 w-4" />
+                                </Button>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent align="end">
+                                <DropdownMenuItem>
+                                    <ExternalLink className="mr-2 h-4 w-4" />
+                                    View
+                                </DropdownMenuItem>
+                                <DropdownMenuItem>
+                                    <Edit className="mr-2 h-4 w-4" />
+                                    Edit
+                                </DropdownMenuItem>
+                                <DropdownMenuSeparator />
+                                <DropdownMenuItem className="text-red-600">
+                                    <Trash2 className="mr-2 h-4 w-4" />
+                                    Delete
+                                </DropdownMenuItem>
+                            </DropdownMenuContent>
+                        </DropdownMenu>
                     </div>
                 </div>
             </Card>

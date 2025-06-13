@@ -1,29 +1,30 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createBin, getBins } from '@/services/bin.service';
-import { GetBinsParamsSchema } from '@/zod/getBinParams';
+import { GetBinsParams, GetBinsParamsSchema } from '@/zod/getBinParams';
 import { auth } from '@clerk/nextjs/server';
 import { CreateBinSchema } from '@/zod/createBinSchema';
+import { parseOrBadRequest } from '@/lib/zod';
 
 export async function GET(req: NextRequest) {
     const { searchParams } = new URL(req.url);
 
     const queryObject = Object.fromEntries(searchParams.entries());
 
-    const parsed = GetBinsParamsSchema.safeParse(queryObject);
-
-    if (!parsed.success) {
-        return NextResponse.json(
-            { error: 'Invalid parameters', details: parsed.error.format() },
-            { status: 400 }
-        );
-    }
+    const parsed = parseOrBadRequest(GetBinsParamsSchema, queryObject)
+    if (!parsed.success) return parsed.response;
 
     try {
-        const data = await getBins(parsed.data);
-        return NextResponse.json(data);
+        const bins = await getBins(parsed.data);
+
+        return new APIResponse()
+            .json(bins)
+
     } catch (err) {
         console.error('[GET /api/bins]', err);
-        return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
+        return new APIResponse()
+            .status(500)
+            .message("Internal Server Error")
+            .error("server_error")
     }
 }
 
@@ -31,14 +32,9 @@ export async function POST(req: Request) {
     const { userId } = await auth();
 
     const body = await req.json();
-    const parsed = CreateBinSchema.safeParse(body);
 
-    if (!parsed.success) {
-        return NextResponse.json(
-            { error: 'Invalid data', details: parsed.error.format() },
-            { status: 400 }
-        );
-    }
+    const parsed = parseOrBadRequest(CreateBinSchema, body)
+    if (!parsed.success) return parsed.response;
 
     try {
         const bin = await createBin({
@@ -46,9 +42,15 @@ export async function POST(req: Request) {
             authorClerkId: userId ?? undefined,
         });
 
-        return NextResponse.json(bin, { status: 201 });
+        return new APIResponse()
+        .status(201)
+        .json(bin)
+        
     } catch (err) {
         console.error('[POST /api/bins]', err);
-        return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
+        return new APIResponse()
+            .status(500)
+            .message("Internal Server Error")
+            .error("server_error")
     }
-  }
+}

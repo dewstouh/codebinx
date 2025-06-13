@@ -1,7 +1,10 @@
+import { comparePassword } from '@/lib/password';
 import prisma from '@/lib/prisma';
 import { CreateBinInput } from '@/zod/createBinSchema';
-import { GetBinsParams } from '@/zod/getBinParams';
-import {nanoid} from 'nanoid';
+import { GetBinParams, GetBinsParams } from '@/zod/getBinParams';
+import { CompleteBin } from '@/zod/prisma';
+import { Bin } from '@prisma/client';
+import { nanoid } from 'nanoid';
 
 export async function getBins(params: GetBinsParams) {
     const { page, limit, title, language, sortBy, sortDirection } = params;
@@ -30,7 +33,7 @@ export async function getBins(params: GetBinsParams) {
         take: limit,
         orderBy: {
             [sortBy]: sortDirection,
-          },
+        },
     });
 
     const hasNextPage = page * limit < totalCount;
@@ -46,17 +49,16 @@ export async function getBins(params: GetBinsParams) {
     };
 }
 
-export async function getBin(binId: string) {
-    const where = {
-        binId,
-    };
+export async function getBin(binId: Bin["binId"]) {
     const bin = await prisma.bin.findUnique({
-        where,
+        where: {
+            binId
+        },
     });
     return bin
 }
 
-export async function createBin(input: CreateBinInput & { authorClerkId?: string }) {
+export async function createBin(input: CreateBinInput & { authorClerkId?: string }): Promise<Bin> {
     const bin = await prisma.bin.create({
         data: {
             ...input,
