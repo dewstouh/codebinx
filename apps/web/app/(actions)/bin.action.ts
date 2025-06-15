@@ -1,0 +1,82 @@
+'use server'
+
+import { parseOrError } from '@/lib/zod'
+import { BinService } from '@/packages/core/services/bin.service'
+import { Zod } from '@/packages/core/zod'
+import { revalidatePath } from 'next/cache'
+import { cookies } from 'next/headers'
+import { redirect } from 'next/navigation'
+
+export class BinAction {
+    static async create(rawData: unknown, authorClerkId: string) {
+        const parsed = parseOrError(Zod.Forms.BinSchema.Create, rawData)
+        if (!parsed.success) return { success: false, issues: parsed.issues }
+
+        try {
+            const bin = await BinService.createBin({
+                ...parsed.data,
+                author: { connect: { clerkUserId: authorClerkId } },
+            })
+
+            revalidatePath('/dashboard')
+            redirect(`/bin/${bin.binId}`)
+        } catch (err) {
+            console.error(err)
+            return { success: false, issues: { global: ['Error creating bin'] } }
+        }
+    }
+
+    static async update(binId: string, rawData: unknown, authorClerkId: string) {
+        const parsed = parseOrError(Zod.Forms.BinSchema.Update, rawData)
+        if (!parsed.success) return { success: false, issues: parsed.issues }
+
+        try {
+            await BinService.updateBin(binId, authorClerkId, parsed.data)
+            revalidatePath(`/bin/${binId}`)
+            return { success: true }
+        } catch (err) {
+            console.error(err)
+            return { success: false, issues: { global: ['Error updating bin'] } }
+        }
+    }
+
+    static async delete(binId: string, authorClerkId: string) {
+        try {
+            await BinService.deleteBin(binId, authorClerkId)
+            revalidatePath('/dashboard')
+            return { success: true }
+        } catch (err) {
+            console.error(err)
+            return { success: false, issues: { global: ['Error deleting bin'] } }
+        }
+    }
+
+    static async unlock(binId: string, rawData: unknown) {
+        const parsed = parseOrError(Zod.Forms.BinSchema.Unlock, rawData)
+        if (!parsed.success) return { success: false, issues: parsed.issues }
+
+        const isValid = await BinService.checkBinPassword(binId, parsed.data.password)
+
+        if (!isValid) {
+            return {
+                success: false,
+                issues: {
+                    password: ['Incorrect password'],
+                },
+            }
+        }
+
+        (await cookies()).set(`unlocked_bin_${binId}`, 'true', {
+            path: '/',
+            maxAge: 60 * 60 * 24 * 7, // unlocked for 7 days, should be good enough
+            httpOnly: false,
+        })
+
+        return { success: true }
+
+    }
+
+    static async get(binId: string) {
+        return BinService.getCompleteBin(binId)
+    }
+}
