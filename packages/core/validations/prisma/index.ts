@@ -12,13 +12,13 @@ import type { Prisma } from '@prisma/client';
 
 export const TransactionIsolationLevelSchema = z.enum(['ReadUncommitted','ReadCommitted','RepeatableRead','Serializable']);
 
-export const BinScalarFieldEnumSchema = z.enum(['id','binId','title','description','content','language','views','expiresAt','createdAt','updatedAt','isPrivate','password','authorClerkId']);
+export const BinScalarFieldEnumSchema = z.enum(['id','binId','title','description','content','language','views','expiresAt','createdAt','updatedAt','isPrivate','password','authorId']);
 
-export const UserScalarFieldEnumSchema = z.enum(['id','clerkUserId','email','username','avatarUrl','createdAt','updatedAt']);
+export const UserScalarFieldEnumSchema = z.enum(['clerkUserId','email','username','avatarUrl','createdAt','updatedAt']);
 
-export const CommentScalarFieldEnumSchema = z.enum(['id','content','createdAt','updatedAt','authorClerkId','targetId','targetType']);
+export const CommentScalarFieldEnumSchema = z.enum(['id','content','createdAt','updatedAt','authorId','targetId','targetType']);
 
-export const ReportScalarFieldEnumSchema = z.enum(['id','reason','createdAt','updatedAt','authorClerkId','targetType','targetId']);
+export const ReportScalarFieldEnumSchema = z.enum(['id','reason','createdAt','updatedAt','authorId','targetType','targetId']);
 
 export const SortOrderSchema = z.enum(['asc','desc']);
 
@@ -52,10 +52,10 @@ export const BinSchema = z.object({
   views: z.number().int(),
   expiresAt: z.coerce.date().nullable(),
   createdAt: z.coerce.date(),
-  updatedAt: z.coerce.date().nullable(),
+  updatedAt: z.coerce.date(),
   isPrivate: z.boolean(),
   password: z.string().nullable(),
-  authorClerkId: z.string().nullable(),
+  authorId: z.string().nullable(),
 })
 
 export type Bin = z.infer<typeof BinSchema>
@@ -78,13 +78,12 @@ export const BinWithRelationsSchema: z.ZodType<BinWithRelations> = BinSchema.mer
 /////////////////////////////////////////
 
 export const UserSchema = z.object({
-  id: z.string().cuid(),
   clerkUserId: z.string(),
   email: z.string(),
   username: z.string(),
   avatarUrl: z.string().nullable(),
   createdAt: z.coerce.date(),
-  updatedAt: z.coerce.date().nullable(),
+  updatedAt: z.coerce.date(),
 })
 
 export type User = z.infer<typeof UserSchema>
@@ -116,7 +115,7 @@ export const CommentSchema = z.object({
   content: z.string(),
   createdAt: z.coerce.date(),
   updatedAt: z.coerce.date().nullable(),
-  authorClerkId: z.string(),
+  authorId: z.string(),
   targetId: z.string(),
 })
 
@@ -145,7 +144,7 @@ export const ReportSchema = z.object({
   reason: z.string(),
   createdAt: z.coerce.date(),
   updatedAt: z.coerce.date(),
-  authorClerkId: z.string(),
+  authorId: z.string(),
   targetId: z.string(),
 })
 
@@ -193,7 +192,7 @@ export const BinSelectSchema: z.ZodType<Prisma.BinSelect> = z.object({
   updatedAt: z.boolean().optional(),
   isPrivate: z.boolean().optional(),
   password: z.boolean().optional(),
-  authorClerkId: z.boolean().optional(),
+  authorId: z.boolean().optional(),
   author: z.union([z.boolean(),z.lazy(() => UserArgsSchema)]).optional(),
 }).strict()
 
@@ -223,7 +222,6 @@ export const UserCountOutputTypeSelectSchema: z.ZodType<Prisma.UserCountOutputTy
 }).strict();
 
 export const UserSelectSchema: z.ZodType<Prisma.UserSelect> = z.object({
-  id: z.boolean().optional(),
   clerkUserId: z.boolean().optional(),
   email: z.boolean().optional(),
   username: z.boolean().optional(),
@@ -253,7 +251,7 @@ export const CommentSelectSchema: z.ZodType<Prisma.CommentSelect> = z.object({
   content: z.boolean().optional(),
   createdAt: z.boolean().optional(),
   updatedAt: z.boolean().optional(),
-  authorClerkId: z.boolean().optional(),
+  authorId: z.boolean().optional(),
   targetId: z.boolean().optional(),
   targetType: z.boolean().optional(),
   author: z.union([z.boolean(),z.lazy(() => UserArgsSchema)]).optional(),
@@ -276,7 +274,7 @@ export const ReportSelectSchema: z.ZodType<Prisma.ReportSelect> = z.object({
   reason: z.boolean().optional(),
   createdAt: z.boolean().optional(),
   updatedAt: z.boolean().optional(),
-  authorClerkId: z.boolean().optional(),
+  authorId: z.boolean().optional(),
   targetType: z.boolean().optional(),
   targetId: z.boolean().optional(),
   author: z.union([z.boolean(),z.lazy(() => UserArgsSchema)]).optional(),
@@ -300,10 +298,10 @@ export const BinWhereInputSchema: z.ZodType<Prisma.BinWhereInput> = z.object({
   views: z.union([ z.lazy(() => IntFilterSchema),z.number() ]).optional(),
   expiresAt: z.union([ z.lazy(() => DateTimeNullableFilterSchema),z.coerce.date() ]).optional().nullable(),
   createdAt: z.union([ z.lazy(() => DateTimeFilterSchema),z.coerce.date() ]).optional(),
-  updatedAt: z.union([ z.lazy(() => DateTimeNullableFilterSchema),z.coerce.date() ]).optional().nullable(),
+  updatedAt: z.union([ z.lazy(() => DateTimeFilterSchema),z.coerce.date() ]).optional(),
   isPrivate: z.union([ z.lazy(() => BoolFilterSchema),z.boolean() ]).optional(),
   password: z.union([ z.lazy(() => StringNullableFilterSchema),z.string() ]).optional().nullable(),
-  authorClerkId: z.union([ z.lazy(() => StringNullableFilterSchema),z.string() ]).optional().nullable(),
+  authorId: z.union([ z.lazy(() => StringNullableFilterSchema),z.string() ]).optional().nullable(),
   author: z.union([ z.lazy(() => UserNullableScalarRelationFilterSchema),z.lazy(() => UserWhereInputSchema) ]).optional().nullable(),
 }).strict();
 
@@ -317,10 +315,10 @@ export const BinOrderByWithRelationInputSchema: z.ZodType<Prisma.BinOrderByWithR
   views: z.lazy(() => SortOrderSchema).optional(),
   expiresAt: z.union([ z.lazy(() => SortOrderSchema),z.lazy(() => SortOrderInputSchema) ]).optional(),
   createdAt: z.lazy(() => SortOrderSchema).optional(),
-  updatedAt: z.union([ z.lazy(() => SortOrderSchema),z.lazy(() => SortOrderInputSchema) ]).optional(),
+  updatedAt: z.lazy(() => SortOrderSchema).optional(),
   isPrivate: z.lazy(() => SortOrderSchema).optional(),
   password: z.union([ z.lazy(() => SortOrderSchema),z.lazy(() => SortOrderInputSchema) ]).optional(),
-  authorClerkId: z.union([ z.lazy(() => SortOrderSchema),z.lazy(() => SortOrderInputSchema) ]).optional(),
+  authorId: z.union([ z.lazy(() => SortOrderSchema),z.lazy(() => SortOrderInputSchema) ]).optional(),
   author: z.lazy(() => UserOrderByWithRelationInputSchema).optional()
 }).strict();
 
@@ -349,10 +347,10 @@ export const BinWhereUniqueInputSchema: z.ZodType<Prisma.BinWhereUniqueInput> = 
   views: z.union([ z.lazy(() => IntFilterSchema),z.number().int() ]).optional(),
   expiresAt: z.union([ z.lazy(() => DateTimeNullableFilterSchema),z.coerce.date() ]).optional().nullable(),
   createdAt: z.union([ z.lazy(() => DateTimeFilterSchema),z.coerce.date() ]).optional(),
-  updatedAt: z.union([ z.lazy(() => DateTimeNullableFilterSchema),z.coerce.date() ]).optional().nullable(),
+  updatedAt: z.union([ z.lazy(() => DateTimeFilterSchema),z.coerce.date() ]).optional(),
   isPrivate: z.union([ z.lazy(() => BoolFilterSchema),z.boolean() ]).optional(),
   password: z.union([ z.lazy(() => StringNullableFilterSchema),z.string() ]).optional().nullable(),
-  authorClerkId: z.union([ z.lazy(() => StringNullableFilterSchema),z.string() ]).optional().nullable(),
+  authorId: z.union([ z.lazy(() => StringNullableFilterSchema),z.string() ]).optional().nullable(),
   author: z.union([ z.lazy(() => UserNullableScalarRelationFilterSchema),z.lazy(() => UserWhereInputSchema) ]).optional().nullable(),
 }).strict());
 
@@ -366,10 +364,10 @@ export const BinOrderByWithAggregationInputSchema: z.ZodType<Prisma.BinOrderByWi
   views: z.lazy(() => SortOrderSchema).optional(),
   expiresAt: z.union([ z.lazy(() => SortOrderSchema),z.lazy(() => SortOrderInputSchema) ]).optional(),
   createdAt: z.lazy(() => SortOrderSchema).optional(),
-  updatedAt: z.union([ z.lazy(() => SortOrderSchema),z.lazy(() => SortOrderInputSchema) ]).optional(),
+  updatedAt: z.lazy(() => SortOrderSchema).optional(),
   isPrivate: z.lazy(() => SortOrderSchema).optional(),
   password: z.union([ z.lazy(() => SortOrderSchema),z.lazy(() => SortOrderInputSchema) ]).optional(),
-  authorClerkId: z.union([ z.lazy(() => SortOrderSchema),z.lazy(() => SortOrderInputSchema) ]).optional(),
+  authorId: z.union([ z.lazy(() => SortOrderSchema),z.lazy(() => SortOrderInputSchema) ]).optional(),
   _count: z.lazy(() => BinCountOrderByAggregateInputSchema).optional(),
   _avg: z.lazy(() => BinAvgOrderByAggregateInputSchema).optional(),
   _max: z.lazy(() => BinMaxOrderByAggregateInputSchema).optional(),
@@ -390,36 +388,34 @@ export const BinScalarWhereWithAggregatesInputSchema: z.ZodType<Prisma.BinScalar
   views: z.union([ z.lazy(() => IntWithAggregatesFilterSchema),z.number() ]).optional(),
   expiresAt: z.union([ z.lazy(() => DateTimeNullableWithAggregatesFilterSchema),z.coerce.date() ]).optional().nullable(),
   createdAt: z.union([ z.lazy(() => DateTimeWithAggregatesFilterSchema),z.coerce.date() ]).optional(),
-  updatedAt: z.union([ z.lazy(() => DateTimeNullableWithAggregatesFilterSchema),z.coerce.date() ]).optional().nullable(),
+  updatedAt: z.union([ z.lazy(() => DateTimeWithAggregatesFilterSchema),z.coerce.date() ]).optional(),
   isPrivate: z.union([ z.lazy(() => BoolWithAggregatesFilterSchema),z.boolean() ]).optional(),
   password: z.union([ z.lazy(() => StringNullableWithAggregatesFilterSchema),z.string() ]).optional().nullable(),
-  authorClerkId: z.union([ z.lazy(() => StringNullableWithAggregatesFilterSchema),z.string() ]).optional().nullable(),
+  authorId: z.union([ z.lazy(() => StringNullableWithAggregatesFilterSchema),z.string() ]).optional().nullable(),
 }).strict();
 
 export const UserWhereInputSchema: z.ZodType<Prisma.UserWhereInput> = z.object({
   AND: z.union([ z.lazy(() => UserWhereInputSchema),z.lazy(() => UserWhereInputSchema).array() ]).optional(),
   OR: z.lazy(() => UserWhereInputSchema).array().optional(),
   NOT: z.union([ z.lazy(() => UserWhereInputSchema),z.lazy(() => UserWhereInputSchema).array() ]).optional(),
-  id: z.union([ z.lazy(() => StringFilterSchema),z.string() ]).optional(),
   clerkUserId: z.union([ z.lazy(() => StringFilterSchema),z.string() ]).optional(),
   email: z.union([ z.lazy(() => StringFilterSchema),z.string() ]).optional(),
   username: z.union([ z.lazy(() => StringFilterSchema),z.string() ]).optional(),
   avatarUrl: z.union([ z.lazy(() => StringNullableFilterSchema),z.string() ]).optional().nullable(),
   createdAt: z.union([ z.lazy(() => DateTimeFilterSchema),z.coerce.date() ]).optional(),
-  updatedAt: z.union([ z.lazy(() => DateTimeNullableFilterSchema),z.coerce.date() ]).optional().nullable(),
+  updatedAt: z.union([ z.lazy(() => DateTimeFilterSchema),z.coerce.date() ]).optional(),
   bins: z.lazy(() => BinListRelationFilterSchema).optional(),
   comments: z.lazy(() => CommentListRelationFilterSchema).optional(),
   reports: z.lazy(() => ReportListRelationFilterSchema).optional()
 }).strict();
 
 export const UserOrderByWithRelationInputSchema: z.ZodType<Prisma.UserOrderByWithRelationInput> = z.object({
-  id: z.lazy(() => SortOrderSchema).optional(),
   clerkUserId: z.lazy(() => SortOrderSchema).optional(),
   email: z.lazy(() => SortOrderSchema).optional(),
   username: z.lazy(() => SortOrderSchema).optional(),
   avatarUrl: z.union([ z.lazy(() => SortOrderSchema),z.lazy(() => SortOrderInputSchema) ]).optional(),
   createdAt: z.lazy(() => SortOrderSchema).optional(),
-  updatedAt: z.union([ z.lazy(() => SortOrderSchema),z.lazy(() => SortOrderInputSchema) ]).optional(),
+  updatedAt: z.lazy(() => SortOrderSchema).optional(),
   bins: z.lazy(() => BinOrderByRelationAggregateInputSchema).optional(),
   comments: z.lazy(() => CommentOrderByRelationAggregateInputSchema).optional(),
   reports: z.lazy(() => ReportOrderByRelationAggregateInputSchema).optional()
@@ -427,45 +423,9 @@ export const UserOrderByWithRelationInputSchema: z.ZodType<Prisma.UserOrderByWit
 
 export const UserWhereUniqueInputSchema: z.ZodType<Prisma.UserWhereUniqueInput> = z.union([
   z.object({
-    id: z.string().cuid(),
     clerkUserId: z.string(),
     email: z.string(),
     username: z.string()
-  }),
-  z.object({
-    id: z.string().cuid(),
-    clerkUserId: z.string(),
-    email: z.string(),
-  }),
-  z.object({
-    id: z.string().cuid(),
-    clerkUserId: z.string(),
-    username: z.string(),
-  }),
-  z.object({
-    id: z.string().cuid(),
-    clerkUserId: z.string(),
-  }),
-  z.object({
-    id: z.string().cuid(),
-    email: z.string(),
-    username: z.string(),
-  }),
-  z.object({
-    id: z.string().cuid(),
-    email: z.string(),
-  }),
-  z.object({
-    id: z.string().cuid(),
-    username: z.string(),
-  }),
-  z.object({
-    id: z.string().cuid(),
-  }),
-  z.object({
-    clerkUserId: z.string(),
-    email: z.string(),
-    username: z.string(),
   }),
   z.object({
     clerkUserId: z.string(),
@@ -490,7 +450,6 @@ export const UserWhereUniqueInputSchema: z.ZodType<Prisma.UserWhereUniqueInput> 
   }),
 ])
 .and(z.object({
-  id: z.string().cuid().optional(),
   clerkUserId: z.string().optional(),
   email: z.string().optional(),
   username: z.string().optional(),
@@ -499,20 +458,19 @@ export const UserWhereUniqueInputSchema: z.ZodType<Prisma.UserWhereUniqueInput> 
   NOT: z.union([ z.lazy(() => UserWhereInputSchema),z.lazy(() => UserWhereInputSchema).array() ]).optional(),
   avatarUrl: z.union([ z.lazy(() => StringNullableFilterSchema),z.string() ]).optional().nullable(),
   createdAt: z.union([ z.lazy(() => DateTimeFilterSchema),z.coerce.date() ]).optional(),
-  updatedAt: z.union([ z.lazy(() => DateTimeNullableFilterSchema),z.coerce.date() ]).optional().nullable(),
+  updatedAt: z.union([ z.lazy(() => DateTimeFilterSchema),z.coerce.date() ]).optional(),
   bins: z.lazy(() => BinListRelationFilterSchema).optional(),
   comments: z.lazy(() => CommentListRelationFilterSchema).optional(),
   reports: z.lazy(() => ReportListRelationFilterSchema).optional()
 }).strict());
 
 export const UserOrderByWithAggregationInputSchema: z.ZodType<Prisma.UserOrderByWithAggregationInput> = z.object({
-  id: z.lazy(() => SortOrderSchema).optional(),
   clerkUserId: z.lazy(() => SortOrderSchema).optional(),
   email: z.lazy(() => SortOrderSchema).optional(),
   username: z.lazy(() => SortOrderSchema).optional(),
   avatarUrl: z.union([ z.lazy(() => SortOrderSchema),z.lazy(() => SortOrderInputSchema) ]).optional(),
   createdAt: z.lazy(() => SortOrderSchema).optional(),
-  updatedAt: z.union([ z.lazy(() => SortOrderSchema),z.lazy(() => SortOrderInputSchema) ]).optional(),
+  updatedAt: z.lazy(() => SortOrderSchema).optional(),
   _count: z.lazy(() => UserCountOrderByAggregateInputSchema).optional(),
   _max: z.lazy(() => UserMaxOrderByAggregateInputSchema).optional(),
   _min: z.lazy(() => UserMinOrderByAggregateInputSchema).optional()
@@ -522,13 +480,12 @@ export const UserScalarWhereWithAggregatesInputSchema: z.ZodType<Prisma.UserScal
   AND: z.union([ z.lazy(() => UserScalarWhereWithAggregatesInputSchema),z.lazy(() => UserScalarWhereWithAggregatesInputSchema).array() ]).optional(),
   OR: z.lazy(() => UserScalarWhereWithAggregatesInputSchema).array().optional(),
   NOT: z.union([ z.lazy(() => UserScalarWhereWithAggregatesInputSchema),z.lazy(() => UserScalarWhereWithAggregatesInputSchema).array() ]).optional(),
-  id: z.union([ z.lazy(() => StringWithAggregatesFilterSchema),z.string() ]).optional(),
   clerkUserId: z.union([ z.lazy(() => StringWithAggregatesFilterSchema),z.string() ]).optional(),
   email: z.union([ z.lazy(() => StringWithAggregatesFilterSchema),z.string() ]).optional(),
   username: z.union([ z.lazy(() => StringWithAggregatesFilterSchema),z.string() ]).optional(),
   avatarUrl: z.union([ z.lazy(() => StringNullableWithAggregatesFilterSchema),z.string() ]).optional().nullable(),
   createdAt: z.union([ z.lazy(() => DateTimeWithAggregatesFilterSchema),z.coerce.date() ]).optional(),
-  updatedAt: z.union([ z.lazy(() => DateTimeNullableWithAggregatesFilterSchema),z.coerce.date() ]).optional().nullable(),
+  updatedAt: z.union([ z.lazy(() => DateTimeWithAggregatesFilterSchema),z.coerce.date() ]).optional(),
 }).strict();
 
 export const CommentWhereInputSchema: z.ZodType<Prisma.CommentWhereInput> = z.object({
@@ -539,7 +496,7 @@ export const CommentWhereInputSchema: z.ZodType<Prisma.CommentWhereInput> = z.ob
   content: z.union([ z.lazy(() => StringFilterSchema),z.string() ]).optional(),
   createdAt: z.union([ z.lazy(() => DateTimeFilterSchema),z.coerce.date() ]).optional(),
   updatedAt: z.union([ z.lazy(() => DateTimeNullableFilterSchema),z.coerce.date() ]).optional().nullable(),
-  authorClerkId: z.union([ z.lazy(() => StringFilterSchema),z.string() ]).optional(),
+  authorId: z.union([ z.lazy(() => StringFilterSchema),z.string() ]).optional(),
   targetId: z.union([ z.lazy(() => StringFilterSchema),z.string() ]).optional(),
   targetType: z.union([ z.lazy(() => EnumCommentTargetTypeFilterSchema),z.lazy(() => CommentTargetTypeSchema) ]).optional(),
   author: z.union([ z.lazy(() => UserScalarRelationFilterSchema),z.lazy(() => UserWhereInputSchema) ]).optional(),
@@ -550,7 +507,7 @@ export const CommentOrderByWithRelationInputSchema: z.ZodType<Prisma.CommentOrde
   content: z.lazy(() => SortOrderSchema).optional(),
   createdAt: z.lazy(() => SortOrderSchema).optional(),
   updatedAt: z.union([ z.lazy(() => SortOrderSchema),z.lazy(() => SortOrderInputSchema) ]).optional(),
-  authorClerkId: z.lazy(() => SortOrderSchema).optional(),
+  authorId: z.lazy(() => SortOrderSchema).optional(),
   targetId: z.lazy(() => SortOrderSchema).optional(),
   targetType: z.lazy(() => SortOrderSchema).optional(),
   author: z.lazy(() => UserOrderByWithRelationInputSchema).optional()
@@ -567,7 +524,7 @@ export const CommentWhereUniqueInputSchema: z.ZodType<Prisma.CommentWhereUniqueI
   content: z.union([ z.lazy(() => StringFilterSchema),z.string() ]).optional(),
   createdAt: z.union([ z.lazy(() => DateTimeFilterSchema),z.coerce.date() ]).optional(),
   updatedAt: z.union([ z.lazy(() => DateTimeNullableFilterSchema),z.coerce.date() ]).optional().nullable(),
-  authorClerkId: z.union([ z.lazy(() => StringFilterSchema),z.string() ]).optional(),
+  authorId: z.union([ z.lazy(() => StringFilterSchema),z.string() ]).optional(),
   targetId: z.union([ z.lazy(() => StringFilterSchema),z.string() ]).optional(),
   targetType: z.union([ z.lazy(() => EnumCommentTargetTypeFilterSchema),z.lazy(() => CommentTargetTypeSchema) ]).optional(),
   author: z.union([ z.lazy(() => UserScalarRelationFilterSchema),z.lazy(() => UserWhereInputSchema) ]).optional(),
@@ -578,7 +535,7 @@ export const CommentOrderByWithAggregationInputSchema: z.ZodType<Prisma.CommentO
   content: z.lazy(() => SortOrderSchema).optional(),
   createdAt: z.lazy(() => SortOrderSchema).optional(),
   updatedAt: z.union([ z.lazy(() => SortOrderSchema),z.lazy(() => SortOrderInputSchema) ]).optional(),
-  authorClerkId: z.lazy(() => SortOrderSchema).optional(),
+  authorId: z.lazy(() => SortOrderSchema).optional(),
   targetId: z.lazy(() => SortOrderSchema).optional(),
   targetType: z.lazy(() => SortOrderSchema).optional(),
   _count: z.lazy(() => CommentCountOrderByAggregateInputSchema).optional(),
@@ -594,7 +551,7 @@ export const CommentScalarWhereWithAggregatesInputSchema: z.ZodType<Prisma.Comme
   content: z.union([ z.lazy(() => StringWithAggregatesFilterSchema),z.string() ]).optional(),
   createdAt: z.union([ z.lazy(() => DateTimeWithAggregatesFilterSchema),z.coerce.date() ]).optional(),
   updatedAt: z.union([ z.lazy(() => DateTimeNullableWithAggregatesFilterSchema),z.coerce.date() ]).optional().nullable(),
-  authorClerkId: z.union([ z.lazy(() => StringWithAggregatesFilterSchema),z.string() ]).optional(),
+  authorId: z.union([ z.lazy(() => StringWithAggregatesFilterSchema),z.string() ]).optional(),
   targetId: z.union([ z.lazy(() => StringWithAggregatesFilterSchema),z.string() ]).optional(),
   targetType: z.union([ z.lazy(() => EnumCommentTargetTypeWithAggregatesFilterSchema),z.lazy(() => CommentTargetTypeSchema) ]).optional(),
 }).strict();
@@ -607,7 +564,7 @@ export const ReportWhereInputSchema: z.ZodType<Prisma.ReportWhereInput> = z.obje
   reason: z.union([ z.lazy(() => StringFilterSchema),z.string() ]).optional(),
   createdAt: z.union([ z.lazy(() => DateTimeFilterSchema),z.coerce.date() ]).optional(),
   updatedAt: z.union([ z.lazy(() => DateTimeFilterSchema),z.coerce.date() ]).optional(),
-  authorClerkId: z.union([ z.lazy(() => StringFilterSchema),z.string() ]).optional(),
+  authorId: z.union([ z.lazy(() => StringFilterSchema),z.string() ]).optional(),
   targetType: z.union([ z.lazy(() => EnumReportTargetTypeFilterSchema),z.lazy(() => ReportTargetTypeSchema) ]).optional(),
   targetId: z.union([ z.lazy(() => StringFilterSchema),z.string() ]).optional(),
   author: z.union([ z.lazy(() => UserScalarRelationFilterSchema),z.lazy(() => UserWhereInputSchema) ]).optional(),
@@ -618,7 +575,7 @@ export const ReportOrderByWithRelationInputSchema: z.ZodType<Prisma.ReportOrderB
   reason: z.lazy(() => SortOrderSchema).optional(),
   createdAt: z.lazy(() => SortOrderSchema).optional(),
   updatedAt: z.lazy(() => SortOrderSchema).optional(),
-  authorClerkId: z.lazy(() => SortOrderSchema).optional(),
+  authorId: z.lazy(() => SortOrderSchema).optional(),
   targetType: z.lazy(() => SortOrderSchema).optional(),
   targetId: z.lazy(() => SortOrderSchema).optional(),
   author: z.lazy(() => UserOrderByWithRelationInputSchema).optional()
@@ -635,7 +592,7 @@ export const ReportWhereUniqueInputSchema: z.ZodType<Prisma.ReportWhereUniqueInp
   reason: z.union([ z.lazy(() => StringFilterSchema),z.string() ]).optional(),
   createdAt: z.union([ z.lazy(() => DateTimeFilterSchema),z.coerce.date() ]).optional(),
   updatedAt: z.union([ z.lazy(() => DateTimeFilterSchema),z.coerce.date() ]).optional(),
-  authorClerkId: z.union([ z.lazy(() => StringFilterSchema),z.string() ]).optional(),
+  authorId: z.union([ z.lazy(() => StringFilterSchema),z.string() ]).optional(),
   targetType: z.union([ z.lazy(() => EnumReportTargetTypeFilterSchema),z.lazy(() => ReportTargetTypeSchema) ]).optional(),
   targetId: z.union([ z.lazy(() => StringFilterSchema),z.string() ]).optional(),
   author: z.union([ z.lazy(() => UserScalarRelationFilterSchema),z.lazy(() => UserWhereInputSchema) ]).optional(),
@@ -646,7 +603,7 @@ export const ReportOrderByWithAggregationInputSchema: z.ZodType<Prisma.ReportOrd
   reason: z.lazy(() => SortOrderSchema).optional(),
   createdAt: z.lazy(() => SortOrderSchema).optional(),
   updatedAt: z.lazy(() => SortOrderSchema).optional(),
-  authorClerkId: z.lazy(() => SortOrderSchema).optional(),
+  authorId: z.lazy(() => SortOrderSchema).optional(),
   targetType: z.lazy(() => SortOrderSchema).optional(),
   targetId: z.lazy(() => SortOrderSchema).optional(),
   _count: z.lazy(() => ReportCountOrderByAggregateInputSchema).optional(),
@@ -662,7 +619,7 @@ export const ReportScalarWhereWithAggregatesInputSchema: z.ZodType<Prisma.Report
   reason: z.union([ z.lazy(() => StringWithAggregatesFilterSchema),z.string() ]).optional(),
   createdAt: z.union([ z.lazy(() => DateTimeWithAggregatesFilterSchema),z.coerce.date() ]).optional(),
   updatedAt: z.union([ z.lazy(() => DateTimeWithAggregatesFilterSchema),z.coerce.date() ]).optional(),
-  authorClerkId: z.union([ z.lazy(() => StringWithAggregatesFilterSchema),z.string() ]).optional(),
+  authorId: z.union([ z.lazy(() => StringWithAggregatesFilterSchema),z.string() ]).optional(),
   targetType: z.union([ z.lazy(() => EnumReportTargetTypeWithAggregatesFilterSchema),z.lazy(() => ReportTargetTypeSchema) ]).optional(),
   targetId: z.union([ z.lazy(() => StringWithAggregatesFilterSchema),z.string() ]).optional(),
 }).strict();
@@ -677,7 +634,7 @@ export const BinCreateInputSchema: z.ZodType<Prisma.BinCreateInput> = z.object({
   views: z.number().int().optional(),
   expiresAt: z.coerce.date().optional().nullable(),
   createdAt: z.coerce.date().optional(),
-  updatedAt: z.coerce.date().optional().nullable(),
+  updatedAt: z.coerce.date().optional(),
   isPrivate: z.boolean().optional(),
   password: z.string().optional().nullable(),
   author: z.lazy(() => UserCreateNestedOneWithoutBinsInputSchema).optional()
@@ -693,10 +650,10 @@ export const BinUncheckedCreateInputSchema: z.ZodType<Prisma.BinUncheckedCreateI
   views: z.number().int().optional(),
   expiresAt: z.coerce.date().optional().nullable(),
   createdAt: z.coerce.date().optional(),
-  updatedAt: z.coerce.date().optional().nullable(),
+  updatedAt: z.coerce.date().optional(),
   isPrivate: z.boolean().optional(),
   password: z.string().optional().nullable(),
-  authorClerkId: z.string().optional().nullable()
+  authorId: z.string().optional().nullable()
 }).strict();
 
 export const BinUpdateInputSchema: z.ZodType<Prisma.BinUpdateInput> = z.object({
@@ -709,7 +666,7 @@ export const BinUpdateInputSchema: z.ZodType<Prisma.BinUpdateInput> = z.object({
   views: z.union([ z.number().int(),z.lazy(() => IntFieldUpdateOperationsInputSchema) ]).optional(),
   expiresAt: z.union([ z.coerce.date(),z.lazy(() => NullableDateTimeFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   createdAt: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
-  updatedAt: z.union([ z.coerce.date(),z.lazy(() => NullableDateTimeFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  updatedAt: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
   isPrivate: z.union([ z.boolean(),z.lazy(() => BoolFieldUpdateOperationsInputSchema) ]).optional(),
   password: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   author: z.lazy(() => UserUpdateOneWithoutBinsNestedInputSchema).optional()
@@ -725,10 +682,10 @@ export const BinUncheckedUpdateInputSchema: z.ZodType<Prisma.BinUncheckedUpdateI
   views: z.union([ z.number().int(),z.lazy(() => IntFieldUpdateOperationsInputSchema) ]).optional(),
   expiresAt: z.union([ z.coerce.date(),z.lazy(() => NullableDateTimeFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   createdAt: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
-  updatedAt: z.union([ z.coerce.date(),z.lazy(() => NullableDateTimeFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  updatedAt: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
   isPrivate: z.union([ z.boolean(),z.lazy(() => BoolFieldUpdateOperationsInputSchema) ]).optional(),
   password: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
-  authorClerkId: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  authorId: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
 }).strict();
 
 export const BinCreateManyInputSchema: z.ZodType<Prisma.BinCreateManyInput> = z.object({
@@ -741,10 +698,10 @@ export const BinCreateManyInputSchema: z.ZodType<Prisma.BinCreateManyInput> = z.
   views: z.number().int().optional(),
   expiresAt: z.coerce.date().optional().nullable(),
   createdAt: z.coerce.date().optional(),
-  updatedAt: z.coerce.date().optional().nullable(),
+  updatedAt: z.coerce.date().optional(),
   isPrivate: z.boolean().optional(),
   password: z.string().optional().nullable(),
-  authorClerkId: z.string().optional().nullable()
+  authorId: z.string().optional().nullable()
 }).strict();
 
 export const BinUpdateManyMutationInputSchema: z.ZodType<Prisma.BinUpdateManyMutationInput> = z.object({
@@ -757,7 +714,7 @@ export const BinUpdateManyMutationInputSchema: z.ZodType<Prisma.BinUpdateManyMut
   views: z.union([ z.number().int(),z.lazy(() => IntFieldUpdateOperationsInputSchema) ]).optional(),
   expiresAt: z.union([ z.coerce.date(),z.lazy(() => NullableDateTimeFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   createdAt: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
-  updatedAt: z.union([ z.coerce.date(),z.lazy(() => NullableDateTimeFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  updatedAt: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
   isPrivate: z.union([ z.boolean(),z.lazy(() => BoolFieldUpdateOperationsInputSchema) ]).optional(),
   password: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
 }).strict();
@@ -772,92 +729,85 @@ export const BinUncheckedUpdateManyInputSchema: z.ZodType<Prisma.BinUncheckedUpd
   views: z.union([ z.number().int(),z.lazy(() => IntFieldUpdateOperationsInputSchema) ]).optional(),
   expiresAt: z.union([ z.coerce.date(),z.lazy(() => NullableDateTimeFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   createdAt: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
-  updatedAt: z.union([ z.coerce.date(),z.lazy(() => NullableDateTimeFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  updatedAt: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
   isPrivate: z.union([ z.boolean(),z.lazy(() => BoolFieldUpdateOperationsInputSchema) ]).optional(),
   password: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
-  authorClerkId: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  authorId: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
 }).strict();
 
 export const UserCreateInputSchema: z.ZodType<Prisma.UserCreateInput> = z.object({
-  id: z.string().cuid().optional(),
   clerkUserId: z.string(),
   email: z.string(),
   username: z.string(),
   avatarUrl: z.string().optional().nullable(),
   createdAt: z.coerce.date().optional(),
-  updatedAt: z.coerce.date().optional().nullable(),
+  updatedAt: z.coerce.date().optional(),
   bins: z.lazy(() => BinCreateNestedManyWithoutAuthorInputSchema).optional(),
   comments: z.lazy(() => CommentCreateNestedManyWithoutAuthorInputSchema).optional(),
   reports: z.lazy(() => ReportCreateNestedManyWithoutAuthorInputSchema).optional()
 }).strict();
 
 export const UserUncheckedCreateInputSchema: z.ZodType<Prisma.UserUncheckedCreateInput> = z.object({
-  id: z.string().cuid().optional(),
   clerkUserId: z.string(),
   email: z.string(),
   username: z.string(),
   avatarUrl: z.string().optional().nullable(),
   createdAt: z.coerce.date().optional(),
-  updatedAt: z.coerce.date().optional().nullable(),
+  updatedAt: z.coerce.date().optional(),
   bins: z.lazy(() => BinUncheckedCreateNestedManyWithoutAuthorInputSchema).optional(),
   comments: z.lazy(() => CommentUncheckedCreateNestedManyWithoutAuthorInputSchema).optional(),
   reports: z.lazy(() => ReportUncheckedCreateNestedManyWithoutAuthorInputSchema).optional()
 }).strict();
 
 export const UserUpdateInputSchema: z.ZodType<Prisma.UserUpdateInput> = z.object({
-  id: z.union([ z.string().cuid(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
   clerkUserId: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
   email: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
   username: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
   avatarUrl: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   createdAt: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
-  updatedAt: z.union([ z.coerce.date(),z.lazy(() => NullableDateTimeFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  updatedAt: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
   bins: z.lazy(() => BinUpdateManyWithoutAuthorNestedInputSchema).optional(),
   comments: z.lazy(() => CommentUpdateManyWithoutAuthorNestedInputSchema).optional(),
   reports: z.lazy(() => ReportUpdateManyWithoutAuthorNestedInputSchema).optional()
 }).strict();
 
 export const UserUncheckedUpdateInputSchema: z.ZodType<Prisma.UserUncheckedUpdateInput> = z.object({
-  id: z.union([ z.string().cuid(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
   clerkUserId: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
   email: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
   username: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
   avatarUrl: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   createdAt: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
-  updatedAt: z.union([ z.coerce.date(),z.lazy(() => NullableDateTimeFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  updatedAt: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
   bins: z.lazy(() => BinUncheckedUpdateManyWithoutAuthorNestedInputSchema).optional(),
   comments: z.lazy(() => CommentUncheckedUpdateManyWithoutAuthorNestedInputSchema).optional(),
   reports: z.lazy(() => ReportUncheckedUpdateManyWithoutAuthorNestedInputSchema).optional()
 }).strict();
 
 export const UserCreateManyInputSchema: z.ZodType<Prisma.UserCreateManyInput> = z.object({
-  id: z.string().cuid().optional(),
   clerkUserId: z.string(),
   email: z.string(),
   username: z.string(),
   avatarUrl: z.string().optional().nullable(),
   createdAt: z.coerce.date().optional(),
-  updatedAt: z.coerce.date().optional().nullable()
+  updatedAt: z.coerce.date().optional()
 }).strict();
 
 export const UserUpdateManyMutationInputSchema: z.ZodType<Prisma.UserUpdateManyMutationInput> = z.object({
-  id: z.union([ z.string().cuid(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
   clerkUserId: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
   email: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
   username: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
   avatarUrl: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   createdAt: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
-  updatedAt: z.union([ z.coerce.date(),z.lazy(() => NullableDateTimeFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  updatedAt: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
 }).strict();
 
 export const UserUncheckedUpdateManyInputSchema: z.ZodType<Prisma.UserUncheckedUpdateManyInput> = z.object({
-  id: z.union([ z.string().cuid(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
   clerkUserId: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
   email: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
   username: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
   avatarUrl: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   createdAt: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
-  updatedAt: z.union([ z.coerce.date(),z.lazy(() => NullableDateTimeFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  updatedAt: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
 }).strict();
 
 export const CommentCreateInputSchema: z.ZodType<Prisma.CommentCreateInput> = z.object({
@@ -875,7 +825,7 @@ export const CommentUncheckedCreateInputSchema: z.ZodType<Prisma.CommentUnchecke
   content: z.string(),
   createdAt: z.coerce.date().optional(),
   updatedAt: z.coerce.date().optional().nullable(),
-  authorClerkId: z.string(),
+  authorId: z.string(),
   targetId: z.string(),
   targetType: z.lazy(() => CommentTargetTypeSchema)
 }).strict();
@@ -895,7 +845,7 @@ export const CommentUncheckedUpdateInputSchema: z.ZodType<Prisma.CommentUnchecke
   content: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
   createdAt: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
   updatedAt: z.union([ z.coerce.date(),z.lazy(() => NullableDateTimeFieldUpdateOperationsInputSchema) ]).optional().nullable(),
-  authorClerkId: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
+  authorId: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
   targetId: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
   targetType: z.union([ z.lazy(() => CommentTargetTypeSchema),z.lazy(() => EnumCommentTargetTypeFieldUpdateOperationsInputSchema) ]).optional(),
 }).strict();
@@ -905,7 +855,7 @@ export const CommentCreateManyInputSchema: z.ZodType<Prisma.CommentCreateManyInp
   content: z.string(),
   createdAt: z.coerce.date().optional(),
   updatedAt: z.coerce.date().optional().nullable(),
-  authorClerkId: z.string(),
+  authorId: z.string(),
   targetId: z.string(),
   targetType: z.lazy(() => CommentTargetTypeSchema)
 }).strict();
@@ -924,7 +874,7 @@ export const CommentUncheckedUpdateManyInputSchema: z.ZodType<Prisma.CommentUnch
   content: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
   createdAt: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
   updatedAt: z.union([ z.coerce.date(),z.lazy(() => NullableDateTimeFieldUpdateOperationsInputSchema) ]).optional().nullable(),
-  authorClerkId: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
+  authorId: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
   targetId: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
   targetType: z.union([ z.lazy(() => CommentTargetTypeSchema),z.lazy(() => EnumCommentTargetTypeFieldUpdateOperationsInputSchema) ]).optional(),
 }).strict();
@@ -944,7 +894,7 @@ export const ReportUncheckedCreateInputSchema: z.ZodType<Prisma.ReportUncheckedC
   reason: z.string(),
   createdAt: z.coerce.date().optional(),
   updatedAt: z.coerce.date().optional(),
-  authorClerkId: z.string(),
+  authorId: z.string(),
   targetType: z.lazy(() => ReportTargetTypeSchema),
   targetId: z.string()
 }).strict();
@@ -964,7 +914,7 @@ export const ReportUncheckedUpdateInputSchema: z.ZodType<Prisma.ReportUncheckedU
   reason: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
   createdAt: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
   updatedAt: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
-  authorClerkId: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
+  authorId: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
   targetType: z.union([ z.lazy(() => ReportTargetTypeSchema),z.lazy(() => EnumReportTargetTypeFieldUpdateOperationsInputSchema) ]).optional(),
   targetId: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
 }).strict();
@@ -974,7 +924,7 @@ export const ReportCreateManyInputSchema: z.ZodType<Prisma.ReportCreateManyInput
   reason: z.string(),
   createdAt: z.coerce.date().optional(),
   updatedAt: z.coerce.date().optional(),
-  authorClerkId: z.string(),
+  authorId: z.string(),
   targetType: z.lazy(() => ReportTargetTypeSchema),
   targetId: z.string()
 }).strict();
@@ -993,7 +943,7 @@ export const ReportUncheckedUpdateManyInputSchema: z.ZodType<Prisma.ReportUnchec
   reason: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
   createdAt: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
   updatedAt: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
-  authorClerkId: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
+  authorId: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
   targetType: z.union([ z.lazy(() => ReportTargetTypeSchema),z.lazy(() => EnumReportTargetTypeFieldUpdateOperationsInputSchema) ]).optional(),
   targetId: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
 }).strict();
@@ -1089,7 +1039,7 @@ export const BinCountOrderByAggregateInputSchema: z.ZodType<Prisma.BinCountOrder
   updatedAt: z.lazy(() => SortOrderSchema).optional(),
   isPrivate: z.lazy(() => SortOrderSchema).optional(),
   password: z.lazy(() => SortOrderSchema).optional(),
-  authorClerkId: z.lazy(() => SortOrderSchema).optional()
+  authorId: z.lazy(() => SortOrderSchema).optional()
 }).strict();
 
 export const BinAvgOrderByAggregateInputSchema: z.ZodType<Prisma.BinAvgOrderByAggregateInput> = z.object({
@@ -1109,7 +1059,7 @@ export const BinMaxOrderByAggregateInputSchema: z.ZodType<Prisma.BinMaxOrderByAg
   updatedAt: z.lazy(() => SortOrderSchema).optional(),
   isPrivate: z.lazy(() => SortOrderSchema).optional(),
   password: z.lazy(() => SortOrderSchema).optional(),
-  authorClerkId: z.lazy(() => SortOrderSchema).optional()
+  authorId: z.lazy(() => SortOrderSchema).optional()
 }).strict();
 
 export const BinMinOrderByAggregateInputSchema: z.ZodType<Prisma.BinMinOrderByAggregateInput> = z.object({
@@ -1125,7 +1075,7 @@ export const BinMinOrderByAggregateInputSchema: z.ZodType<Prisma.BinMinOrderByAg
   updatedAt: z.lazy(() => SortOrderSchema).optional(),
   isPrivate: z.lazy(() => SortOrderSchema).optional(),
   password: z.lazy(() => SortOrderSchema).optional(),
-  authorClerkId: z.lazy(() => SortOrderSchema).optional()
+  authorId: z.lazy(() => SortOrderSchema).optional()
 }).strict();
 
 export const BinSumOrderByAggregateInputSchema: z.ZodType<Prisma.BinSumOrderByAggregateInput> = z.object({
@@ -1251,7 +1201,6 @@ export const ReportOrderByRelationAggregateInputSchema: z.ZodType<Prisma.ReportO
 }).strict();
 
 export const UserCountOrderByAggregateInputSchema: z.ZodType<Prisma.UserCountOrderByAggregateInput> = z.object({
-  id: z.lazy(() => SortOrderSchema).optional(),
   clerkUserId: z.lazy(() => SortOrderSchema).optional(),
   email: z.lazy(() => SortOrderSchema).optional(),
   username: z.lazy(() => SortOrderSchema).optional(),
@@ -1261,7 +1210,6 @@ export const UserCountOrderByAggregateInputSchema: z.ZodType<Prisma.UserCountOrd
 }).strict();
 
 export const UserMaxOrderByAggregateInputSchema: z.ZodType<Prisma.UserMaxOrderByAggregateInput> = z.object({
-  id: z.lazy(() => SortOrderSchema).optional(),
   clerkUserId: z.lazy(() => SortOrderSchema).optional(),
   email: z.lazy(() => SortOrderSchema).optional(),
   username: z.lazy(() => SortOrderSchema).optional(),
@@ -1271,7 +1219,6 @@ export const UserMaxOrderByAggregateInputSchema: z.ZodType<Prisma.UserMaxOrderBy
 }).strict();
 
 export const UserMinOrderByAggregateInputSchema: z.ZodType<Prisma.UserMinOrderByAggregateInput> = z.object({
-  id: z.lazy(() => SortOrderSchema).optional(),
   clerkUserId: z.lazy(() => SortOrderSchema).optional(),
   email: z.lazy(() => SortOrderSchema).optional(),
   username: z.lazy(() => SortOrderSchema).optional(),
@@ -1297,7 +1244,7 @@ export const CommentCountOrderByAggregateInputSchema: z.ZodType<Prisma.CommentCo
   content: z.lazy(() => SortOrderSchema).optional(),
   createdAt: z.lazy(() => SortOrderSchema).optional(),
   updatedAt: z.lazy(() => SortOrderSchema).optional(),
-  authorClerkId: z.lazy(() => SortOrderSchema).optional(),
+  authorId: z.lazy(() => SortOrderSchema).optional(),
   targetId: z.lazy(() => SortOrderSchema).optional(),
   targetType: z.lazy(() => SortOrderSchema).optional()
 }).strict();
@@ -1307,7 +1254,7 @@ export const CommentMaxOrderByAggregateInputSchema: z.ZodType<Prisma.CommentMaxO
   content: z.lazy(() => SortOrderSchema).optional(),
   createdAt: z.lazy(() => SortOrderSchema).optional(),
   updatedAt: z.lazy(() => SortOrderSchema).optional(),
-  authorClerkId: z.lazy(() => SortOrderSchema).optional(),
+  authorId: z.lazy(() => SortOrderSchema).optional(),
   targetId: z.lazy(() => SortOrderSchema).optional(),
   targetType: z.lazy(() => SortOrderSchema).optional()
 }).strict();
@@ -1317,7 +1264,7 @@ export const CommentMinOrderByAggregateInputSchema: z.ZodType<Prisma.CommentMinO
   content: z.lazy(() => SortOrderSchema).optional(),
   createdAt: z.lazy(() => SortOrderSchema).optional(),
   updatedAt: z.lazy(() => SortOrderSchema).optional(),
-  authorClerkId: z.lazy(() => SortOrderSchema).optional(),
+  authorId: z.lazy(() => SortOrderSchema).optional(),
   targetId: z.lazy(() => SortOrderSchema).optional(),
   targetType: z.lazy(() => SortOrderSchema).optional()
 }).strict();
@@ -1344,7 +1291,7 @@ export const ReportCountOrderByAggregateInputSchema: z.ZodType<Prisma.ReportCoun
   reason: z.lazy(() => SortOrderSchema).optional(),
   createdAt: z.lazy(() => SortOrderSchema).optional(),
   updatedAt: z.lazy(() => SortOrderSchema).optional(),
-  authorClerkId: z.lazy(() => SortOrderSchema).optional(),
+  authorId: z.lazy(() => SortOrderSchema).optional(),
   targetType: z.lazy(() => SortOrderSchema).optional(),
   targetId: z.lazy(() => SortOrderSchema).optional()
 }).strict();
@@ -1354,7 +1301,7 @@ export const ReportMaxOrderByAggregateInputSchema: z.ZodType<Prisma.ReportMaxOrd
   reason: z.lazy(() => SortOrderSchema).optional(),
   createdAt: z.lazy(() => SortOrderSchema).optional(),
   updatedAt: z.lazy(() => SortOrderSchema).optional(),
-  authorClerkId: z.lazy(() => SortOrderSchema).optional(),
+  authorId: z.lazy(() => SortOrderSchema).optional(),
   targetType: z.lazy(() => SortOrderSchema).optional(),
   targetId: z.lazy(() => SortOrderSchema).optional()
 }).strict();
@@ -1364,7 +1311,7 @@ export const ReportMinOrderByAggregateInputSchema: z.ZodType<Prisma.ReportMinOrd
   reason: z.lazy(() => SortOrderSchema).optional(),
   createdAt: z.lazy(() => SortOrderSchema).optional(),
   updatedAt: z.lazy(() => SortOrderSchema).optional(),
-  authorClerkId: z.lazy(() => SortOrderSchema).optional(),
+  authorId: z.lazy(() => SortOrderSchema).optional(),
   targetType: z.lazy(() => SortOrderSchema).optional(),
   targetId: z.lazy(() => SortOrderSchema).optional()
 }).strict();
@@ -1794,25 +1741,23 @@ export const NestedEnumReportTargetTypeWithAggregatesFilterSchema: z.ZodType<Pri
 }).strict();
 
 export const UserCreateWithoutBinsInputSchema: z.ZodType<Prisma.UserCreateWithoutBinsInput> = z.object({
-  id: z.string().cuid().optional(),
   clerkUserId: z.string(),
   email: z.string(),
   username: z.string(),
   avatarUrl: z.string().optional().nullable(),
   createdAt: z.coerce.date().optional(),
-  updatedAt: z.coerce.date().optional().nullable(),
+  updatedAt: z.coerce.date().optional(),
   comments: z.lazy(() => CommentCreateNestedManyWithoutAuthorInputSchema).optional(),
   reports: z.lazy(() => ReportCreateNestedManyWithoutAuthorInputSchema).optional()
 }).strict();
 
 export const UserUncheckedCreateWithoutBinsInputSchema: z.ZodType<Prisma.UserUncheckedCreateWithoutBinsInput> = z.object({
-  id: z.string().cuid().optional(),
   clerkUserId: z.string(),
   email: z.string(),
   username: z.string(),
   avatarUrl: z.string().optional().nullable(),
   createdAt: z.coerce.date().optional(),
-  updatedAt: z.coerce.date().optional().nullable(),
+  updatedAt: z.coerce.date().optional(),
   comments: z.lazy(() => CommentUncheckedCreateNestedManyWithoutAuthorInputSchema).optional(),
   reports: z.lazy(() => ReportUncheckedCreateNestedManyWithoutAuthorInputSchema).optional()
 }).strict();
@@ -1834,25 +1779,23 @@ export const UserUpdateToOneWithWhereWithoutBinsInputSchema: z.ZodType<Prisma.Us
 }).strict();
 
 export const UserUpdateWithoutBinsInputSchema: z.ZodType<Prisma.UserUpdateWithoutBinsInput> = z.object({
-  id: z.union([ z.string().cuid(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
   clerkUserId: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
   email: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
   username: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
   avatarUrl: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   createdAt: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
-  updatedAt: z.union([ z.coerce.date(),z.lazy(() => NullableDateTimeFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  updatedAt: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
   comments: z.lazy(() => CommentUpdateManyWithoutAuthorNestedInputSchema).optional(),
   reports: z.lazy(() => ReportUpdateManyWithoutAuthorNestedInputSchema).optional()
 }).strict();
 
 export const UserUncheckedUpdateWithoutBinsInputSchema: z.ZodType<Prisma.UserUncheckedUpdateWithoutBinsInput> = z.object({
-  id: z.union([ z.string().cuid(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
   clerkUserId: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
   email: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
   username: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
   avatarUrl: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   createdAt: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
-  updatedAt: z.union([ z.coerce.date(),z.lazy(() => NullableDateTimeFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  updatedAt: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
   comments: z.lazy(() => CommentUncheckedUpdateManyWithoutAuthorNestedInputSchema).optional(),
   reports: z.lazy(() => ReportUncheckedUpdateManyWithoutAuthorNestedInputSchema).optional()
 }).strict();
@@ -1867,7 +1810,7 @@ export const BinCreateWithoutAuthorInputSchema: z.ZodType<Prisma.BinCreateWithou
   views: z.number().int().optional(),
   expiresAt: z.coerce.date().optional().nullable(),
   createdAt: z.coerce.date().optional(),
-  updatedAt: z.coerce.date().optional().nullable(),
+  updatedAt: z.coerce.date().optional(),
   isPrivate: z.boolean().optional(),
   password: z.string().optional().nullable()
 }).strict();
@@ -1882,7 +1825,7 @@ export const BinUncheckedCreateWithoutAuthorInputSchema: z.ZodType<Prisma.BinUnc
   views: z.number().int().optional(),
   expiresAt: z.coerce.date().optional().nullable(),
   createdAt: z.coerce.date().optional(),
-  updatedAt: z.coerce.date().optional().nullable(),
+  updatedAt: z.coerce.date().optional(),
   isPrivate: z.boolean().optional(),
   password: z.string().optional().nullable()
 }).strict();
@@ -1982,10 +1925,10 @@ export const BinScalarWhereInputSchema: z.ZodType<Prisma.BinScalarWhereInput> = 
   views: z.union([ z.lazy(() => IntFilterSchema),z.number() ]).optional(),
   expiresAt: z.union([ z.lazy(() => DateTimeNullableFilterSchema),z.coerce.date() ]).optional().nullable(),
   createdAt: z.union([ z.lazy(() => DateTimeFilterSchema),z.coerce.date() ]).optional(),
-  updatedAt: z.union([ z.lazy(() => DateTimeNullableFilterSchema),z.coerce.date() ]).optional().nullable(),
+  updatedAt: z.union([ z.lazy(() => DateTimeFilterSchema),z.coerce.date() ]).optional(),
   isPrivate: z.union([ z.lazy(() => BoolFilterSchema),z.boolean() ]).optional(),
   password: z.union([ z.lazy(() => StringNullableFilterSchema),z.string() ]).optional().nullable(),
-  authorClerkId: z.union([ z.lazy(() => StringNullableFilterSchema),z.string() ]).optional().nullable(),
+  authorId: z.union([ z.lazy(() => StringNullableFilterSchema),z.string() ]).optional().nullable(),
 }).strict();
 
 export const CommentUpsertWithWhereUniqueWithoutAuthorInputSchema: z.ZodType<Prisma.CommentUpsertWithWhereUniqueWithoutAuthorInput> = z.object({
@@ -2012,7 +1955,7 @@ export const CommentScalarWhereInputSchema: z.ZodType<Prisma.CommentScalarWhereI
   content: z.union([ z.lazy(() => StringFilterSchema),z.string() ]).optional(),
   createdAt: z.union([ z.lazy(() => DateTimeFilterSchema),z.coerce.date() ]).optional(),
   updatedAt: z.union([ z.lazy(() => DateTimeNullableFilterSchema),z.coerce.date() ]).optional().nullable(),
-  authorClerkId: z.union([ z.lazy(() => StringFilterSchema),z.string() ]).optional(),
+  authorId: z.union([ z.lazy(() => StringFilterSchema),z.string() ]).optional(),
   targetId: z.union([ z.lazy(() => StringFilterSchema),z.string() ]).optional(),
   targetType: z.union([ z.lazy(() => EnumCommentTargetTypeFilterSchema),z.lazy(() => CommentTargetTypeSchema) ]).optional(),
 }).strict();
@@ -2041,31 +1984,29 @@ export const ReportScalarWhereInputSchema: z.ZodType<Prisma.ReportScalarWhereInp
   reason: z.union([ z.lazy(() => StringFilterSchema),z.string() ]).optional(),
   createdAt: z.union([ z.lazy(() => DateTimeFilterSchema),z.coerce.date() ]).optional(),
   updatedAt: z.union([ z.lazy(() => DateTimeFilterSchema),z.coerce.date() ]).optional(),
-  authorClerkId: z.union([ z.lazy(() => StringFilterSchema),z.string() ]).optional(),
+  authorId: z.union([ z.lazy(() => StringFilterSchema),z.string() ]).optional(),
   targetType: z.union([ z.lazy(() => EnumReportTargetTypeFilterSchema),z.lazy(() => ReportTargetTypeSchema) ]).optional(),
   targetId: z.union([ z.lazy(() => StringFilterSchema),z.string() ]).optional(),
 }).strict();
 
 export const UserCreateWithoutCommentsInputSchema: z.ZodType<Prisma.UserCreateWithoutCommentsInput> = z.object({
-  id: z.string().cuid().optional(),
   clerkUserId: z.string(),
   email: z.string(),
   username: z.string(),
   avatarUrl: z.string().optional().nullable(),
   createdAt: z.coerce.date().optional(),
-  updatedAt: z.coerce.date().optional().nullable(),
+  updatedAt: z.coerce.date().optional(),
   bins: z.lazy(() => BinCreateNestedManyWithoutAuthorInputSchema).optional(),
   reports: z.lazy(() => ReportCreateNestedManyWithoutAuthorInputSchema).optional()
 }).strict();
 
 export const UserUncheckedCreateWithoutCommentsInputSchema: z.ZodType<Prisma.UserUncheckedCreateWithoutCommentsInput> = z.object({
-  id: z.string().cuid().optional(),
   clerkUserId: z.string(),
   email: z.string(),
   username: z.string(),
   avatarUrl: z.string().optional().nullable(),
   createdAt: z.coerce.date().optional(),
-  updatedAt: z.coerce.date().optional().nullable(),
+  updatedAt: z.coerce.date().optional(),
   bins: z.lazy(() => BinUncheckedCreateNestedManyWithoutAuthorInputSchema).optional(),
   reports: z.lazy(() => ReportUncheckedCreateNestedManyWithoutAuthorInputSchema).optional()
 }).strict();
@@ -2087,49 +2028,45 @@ export const UserUpdateToOneWithWhereWithoutCommentsInputSchema: z.ZodType<Prism
 }).strict();
 
 export const UserUpdateWithoutCommentsInputSchema: z.ZodType<Prisma.UserUpdateWithoutCommentsInput> = z.object({
-  id: z.union([ z.string().cuid(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
   clerkUserId: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
   email: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
   username: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
   avatarUrl: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   createdAt: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
-  updatedAt: z.union([ z.coerce.date(),z.lazy(() => NullableDateTimeFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  updatedAt: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
   bins: z.lazy(() => BinUpdateManyWithoutAuthorNestedInputSchema).optional(),
   reports: z.lazy(() => ReportUpdateManyWithoutAuthorNestedInputSchema).optional()
 }).strict();
 
 export const UserUncheckedUpdateWithoutCommentsInputSchema: z.ZodType<Prisma.UserUncheckedUpdateWithoutCommentsInput> = z.object({
-  id: z.union([ z.string().cuid(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
   clerkUserId: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
   email: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
   username: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
   avatarUrl: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   createdAt: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
-  updatedAt: z.union([ z.coerce.date(),z.lazy(() => NullableDateTimeFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  updatedAt: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
   bins: z.lazy(() => BinUncheckedUpdateManyWithoutAuthorNestedInputSchema).optional(),
   reports: z.lazy(() => ReportUncheckedUpdateManyWithoutAuthorNestedInputSchema).optional()
 }).strict();
 
 export const UserCreateWithoutReportsInputSchema: z.ZodType<Prisma.UserCreateWithoutReportsInput> = z.object({
-  id: z.string().cuid().optional(),
   clerkUserId: z.string(),
   email: z.string(),
   username: z.string(),
   avatarUrl: z.string().optional().nullable(),
   createdAt: z.coerce.date().optional(),
-  updatedAt: z.coerce.date().optional().nullable(),
+  updatedAt: z.coerce.date().optional(),
   bins: z.lazy(() => BinCreateNestedManyWithoutAuthorInputSchema).optional(),
   comments: z.lazy(() => CommentCreateNestedManyWithoutAuthorInputSchema).optional()
 }).strict();
 
 export const UserUncheckedCreateWithoutReportsInputSchema: z.ZodType<Prisma.UserUncheckedCreateWithoutReportsInput> = z.object({
-  id: z.string().cuid().optional(),
   clerkUserId: z.string(),
   email: z.string(),
   username: z.string(),
   avatarUrl: z.string().optional().nullable(),
   createdAt: z.coerce.date().optional(),
-  updatedAt: z.coerce.date().optional().nullable(),
+  updatedAt: z.coerce.date().optional(),
   bins: z.lazy(() => BinUncheckedCreateNestedManyWithoutAuthorInputSchema).optional(),
   comments: z.lazy(() => CommentUncheckedCreateNestedManyWithoutAuthorInputSchema).optional()
 }).strict();
@@ -2151,25 +2088,23 @@ export const UserUpdateToOneWithWhereWithoutReportsInputSchema: z.ZodType<Prisma
 }).strict();
 
 export const UserUpdateWithoutReportsInputSchema: z.ZodType<Prisma.UserUpdateWithoutReportsInput> = z.object({
-  id: z.union([ z.string().cuid(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
   clerkUserId: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
   email: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
   username: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
   avatarUrl: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   createdAt: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
-  updatedAt: z.union([ z.coerce.date(),z.lazy(() => NullableDateTimeFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  updatedAt: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
   bins: z.lazy(() => BinUpdateManyWithoutAuthorNestedInputSchema).optional(),
   comments: z.lazy(() => CommentUpdateManyWithoutAuthorNestedInputSchema).optional()
 }).strict();
 
 export const UserUncheckedUpdateWithoutReportsInputSchema: z.ZodType<Prisma.UserUncheckedUpdateWithoutReportsInput> = z.object({
-  id: z.union([ z.string().cuid(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
   clerkUserId: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
   email: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
   username: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
   avatarUrl: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   createdAt: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
-  updatedAt: z.union([ z.coerce.date(),z.lazy(() => NullableDateTimeFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  updatedAt: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
   bins: z.lazy(() => BinUncheckedUpdateManyWithoutAuthorNestedInputSchema).optional(),
   comments: z.lazy(() => CommentUncheckedUpdateManyWithoutAuthorNestedInputSchema).optional()
 }).strict();
@@ -2184,7 +2119,7 @@ export const BinCreateManyAuthorInputSchema: z.ZodType<Prisma.BinCreateManyAutho
   views: z.number().int().optional(),
   expiresAt: z.coerce.date().optional().nullable(),
   createdAt: z.coerce.date().optional(),
-  updatedAt: z.coerce.date().optional().nullable(),
+  updatedAt: z.coerce.date().optional(),
   isPrivate: z.boolean().optional(),
   password: z.string().optional().nullable()
 }).strict();
@@ -2217,7 +2152,7 @@ export const BinUpdateWithoutAuthorInputSchema: z.ZodType<Prisma.BinUpdateWithou
   views: z.union([ z.number().int(),z.lazy(() => IntFieldUpdateOperationsInputSchema) ]).optional(),
   expiresAt: z.union([ z.coerce.date(),z.lazy(() => NullableDateTimeFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   createdAt: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
-  updatedAt: z.union([ z.coerce.date(),z.lazy(() => NullableDateTimeFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  updatedAt: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
   isPrivate: z.union([ z.boolean(),z.lazy(() => BoolFieldUpdateOperationsInputSchema) ]).optional(),
   password: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
 }).strict();
@@ -2232,7 +2167,7 @@ export const BinUncheckedUpdateWithoutAuthorInputSchema: z.ZodType<Prisma.BinUnc
   views: z.union([ z.number().int(),z.lazy(() => IntFieldUpdateOperationsInputSchema) ]).optional(),
   expiresAt: z.union([ z.coerce.date(),z.lazy(() => NullableDateTimeFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   createdAt: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
-  updatedAt: z.union([ z.coerce.date(),z.lazy(() => NullableDateTimeFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  updatedAt: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
   isPrivate: z.union([ z.boolean(),z.lazy(() => BoolFieldUpdateOperationsInputSchema) ]).optional(),
   password: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
 }).strict();
@@ -2247,7 +2182,7 @@ export const BinUncheckedUpdateManyWithoutAuthorInputSchema: z.ZodType<Prisma.Bi
   views: z.union([ z.number().int(),z.lazy(() => IntFieldUpdateOperationsInputSchema) ]).optional(),
   expiresAt: z.union([ z.coerce.date(),z.lazy(() => NullableDateTimeFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   createdAt: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
-  updatedAt: z.union([ z.coerce.date(),z.lazy(() => NullableDateTimeFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  updatedAt: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
   isPrivate: z.union([ z.boolean(),z.lazy(() => BoolFieldUpdateOperationsInputSchema) ]).optional(),
   password: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
 }).strict();

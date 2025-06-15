@@ -1,5 +1,4 @@
 import prisma from '@codebinx/db';
-import { Prisma } from '@prisma/client';
 
 
 export class ReportService {

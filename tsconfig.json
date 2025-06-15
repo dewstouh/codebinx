@@ -14,7 +14,7 @@
             ],
             "@codebinx/utils/*": [
                 "packages/utils/*"
-            ]
+            ],
         }
     },
     "exclude": [

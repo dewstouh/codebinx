@@ -1,19 +1,31 @@
 import prisma from '@codebinx/db';
-import { Prisma } from '@prisma/client';
 import { nanoid } from 'nanoid'
 import * as bcrypt from 'bcryptjs'
 
+type CreateBinDTO = {
+    title: string
+    description?: string | null
+    content: string
+    language: string
+    authorId?: string | null
+    isPrivate?: boolean
+    expiresAt?: Date | null
+    password?: string | null
+}
+
 export class BinService {
-    static async createBin(data: Omit<Prisma.BinCreateInput, 'binId'>) {
+    static async create(data: CreateBinDTO) {
+        const { password, ...rest } = data
         return prisma.bin.create({
             data: {
-                ...data,
+                ...rest,
+                ...(password ? { password: await bcrypt.hash(password, 10) } : { password: null }),
                 binId: nanoid(10)
             }
-         });
+        });
     }
 
-    static async getCompleteBin(binId: string) {
+    static async getComplete(binId: string) {
         const bin = await prisma.bin.findUnique({
             where: { binId },
             include: {
@@ -34,7 +46,7 @@ export class BinService {
             orderBy: {
                 createdAt: 'desc',
             },
-          })
+        })
 
         const { password, ...rest } = bin
 
@@ -45,7 +57,7 @@ export class BinService {
         }
     }
 
-    static async checkBinPassword(binId: string, inputPassword: string): Promise<boolean> {
+    static async checkPassword(binId: string, inputPassword: string): Promise<boolean> {
         const bin = await prisma.bin.findUnique({
             where: { binId },
             select: { password: true },
@@ -57,30 +69,39 @@ export class BinService {
         return match
     }
 
-    static async updateBin(binId: string, authorClerkId: string, data: Partial<Pick<Prisma.BinUpdateInput, 'title' | 'description' | 'content' | 'language' | 'isPrivate' | 'password'>>) {
+    static async update(binId: string, authorClerkId: string, data: Partial<Pick<Prisma.BinUpdateInput, 'title' | 'description' | 'content' | 'language' | 'isPrivate' | 'password'>>) {
         const existingBin = await prisma.bin.findUnique({
             where: { binId },
-            select: { authorClerkId: true },
+            select: { authorId: true },
         })
 
-        if (!existingBin || existingBin.authorClerkId !== authorClerkId) {
+        if (!existingBin || existingBin.authorId !== authorClerkId) {
             throw new Error('Not authorized or bin not found')
+        }
+
+        const { password, ...rest } = data
+
+        if (typeof password === 'string' && password.length < 6) {
+            throw new Error('Password must be at least 6 characters long')
         }
 
         return await prisma.bin.update({
             where: { binId },
-            data,
+            data: {
+                ...rest,
+                password: typeof password === 'string' ? await bcrypt.hash(password, 10) : null,
+            }
         })
     }
 
 
-    static async deleteBin(binId: string, authorClerkId: string) {
+    static async delete(binId: string, authorClerkId: string) {
         const bin = await prisma.bin.findUnique({
             where: { binId },
-            select: { authorClerkId: true },
+            select: { authorId: true },
         })
 
-        if (!bin || bin.authorClerkId !== authorClerkId) {
+        if (!bin || bin.authorId !== authorClerkId) {
             throw new Error('Not authorized or bin not found')
         }
 

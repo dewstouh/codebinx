@@ -1,9 +1,23 @@
 {
     "name": "@codebinx/db",
     "version": "0.0.0",
+    "private": true,
     "scripts": {
         "generate": "prisma generate",
         "migrate:dev": "prisma migrate dev",
-        "migrate:deploy": "prisma migrate deploy"
+        "migrate:reset": "prisma migrate reset",
+        "migrate:deploy": "prisma migrate deploy",
+        "studio": "prisma studio"
+    },
+    "dependencies": {
+        "@prisma/client": "workspace:*"
+    },
+    "devDependencies": {
+        "prisma": "^6.9.0"
+    },
+    "pnpm": {
+        "overrides": {
+            "@prisma/client": "workspace:*"
+        }
     }
 }

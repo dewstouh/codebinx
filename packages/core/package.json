@@ -1,6 +1,7 @@
 {
     "name": "@codebinx/core",
     "version": "0.0.0",
+    "private": true,
     "dependencies": {
         "@codebinx/db": "workspace:^",
         "bcryptjs": "^3.0.2",

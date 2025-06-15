@@ -3,8 +3,8 @@ generator client {
 }
 
 generator zod {
-  provider = "zod-prisma-types"
-  output   = "../../core/zod/prisma"
+  provider                  = "zod-prisma-types"
+  output                    = "../../core/validations/prisma"
   createRelationValuesTypes = "true"
 }
 
@@ -24,39 +24,38 @@ model Bin {
   views       Int       @default(0)
   expiresAt   DateTime?
   createdAt   DateTime  @default(now())
-  updatedAt   DateTime? @updatedAt
+  updatedAt   DateTime  @updatedAt
   isPrivate   Boolean   @default(false)
   password    String?
 
-  authorClerkId String?
-  author        User?    @relation("UserBins", fields: [authorClerkId], references: [clerkUserId], onDelete: Cascade)
+  authorId String?
+  author   User?   @relation("UserBins", fields: [authorId], references: [clerkUserId], onDelete: Cascade)
 }
 
 model User {
-  id            String    @id @default(cuid())
-  clerkUserId   String    @unique
-  email         String    @unique
-  username      String    @unique
-  avatarUrl     String?
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime? @updatedAt
+  clerkUserId String   @id @unique
+  email       String   @unique
+  username    String   @unique
+  avatarUrl   String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 
-  bins          Bin[]     @relation("UserBins")
-  comments      Comment[] @relation("UserComments")
-  reports       Report[]  @relation("UserReports")
+  bins     Bin[]     @relation("UserBins")
+  comments Comment[] @relation("UserComments")
+  reports  Report[]  @relation("UserReports")
 }
 
 model Comment {
-  id             String   @id @default(cuid())
-  content        String
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime? @updatedAt
+  id        String    @id @default(cuid())
+  content   String
+  createdAt DateTime  @default(now())
+  updatedAt DateTime? @updatedAt
 
-  authorClerkId  String
-  author         User     @relation("UserComments", fields: [authorClerkId], references: [clerkUserId], onDelete: Cascade)
+  authorId String
+  author   User   @relation("UserComments", fields: [authorId], references: [clerkUserId], onDelete: Cascade)
 
-  targetId       String
-  targetType     CommentTargetType
+  targetId   String
+  targetType CommentTargetType
 
   @@index([targetType, targetId])
 }
@@ -67,16 +66,16 @@ enum CommentTargetType {
 }
 
 model Report {
-  id             String   @id @default(cuid())
-  reason         String
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
+  id        String   @id @default(cuid())
+  reason    String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
-  authorClerkId  String
-  author         User     @relation("UserReports", fields: [authorClerkId], references: [clerkUserId], onDelete: Cascade)
+  authorId String
+  author   User   @relation("UserReports", fields: [authorId], references: [clerkUserId], onDelete: Cascade)
 
-  targetType     ReportTargetType
-  targetId       String
+  targetType ReportTargetType
+  targetId   String
 
   @@index([targetType, targetId])
 }
