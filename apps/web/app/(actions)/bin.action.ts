@@ -1,12 +1,14 @@
 'use server'
 
+import { parse } from '@/lib/validation'
+import { BinFormSchema } from '@/validations/forms/bin.schema'
 import { revalidatePath } from 'next/cache'
 import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
 
 export class BinAction {
     static async create(rawData: unknown, authorClerkId: string) {
-        const parsed = parseOrError(Zod.Forms.BinSchema.Create, rawData)
+        const parsed = parse(BinFormSchema, rawData)
         if (!parsed.success) return { success: false, issues: parsed.issues }
 
         try {
