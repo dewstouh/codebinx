@@ -1,0 +1,24 @@
+{
+    "compilerOptions": {
+        "target": "ES2020",
+        "moduleResolution": "node",
+        "strict": true,
+        "skipLibCheck": true,
+        "baseUrl": ".",
+        "paths": {
+            "@codebinx/core/*": [
+                "packages/core/*"
+            ],
+            "@codebinx/db": [
+                "packages/db/index.ts"
+            ],
+            "@codebinx/utils/*": [
+                "packages/utils/*"
+            ]
+        }
+    },
+    "exclude": [
+        "node_modules",
+        "apps/*/.next"
+    ]
+}

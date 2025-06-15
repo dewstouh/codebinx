@@ -1,7 +1,9 @@
 import { z } from 'zod';
 
-export class ReportFormSchemas {
-    static Create = z.object({
+
+
+export const ReportFormSchemas = {
+    Create: z.object({
         targetType: z.enum(['bin', 'user', 'comment']),
         targetId: z.string().min(1),
         reason: z

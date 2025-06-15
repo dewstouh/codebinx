@@ -1,4 +1,4 @@
-import prisma from '@/lib/prisma'
+import prisma from '@/packages/db/prisma'
 import { faker } from '@faker-js/faker'
 
 async function main() {
