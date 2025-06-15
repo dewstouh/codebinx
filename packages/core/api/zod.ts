@@ -1,3 +1,4 @@
+import { ZodSchema } from 'zod';
 
 export function parseOrResponse<T>(schema: ZodSchema<T>, data: unknown) {
     const result = schema.safeParse(data)
