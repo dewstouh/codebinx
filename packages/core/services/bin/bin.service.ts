@@ -1,20 +1,10 @@
+import { Prisma } from '@prisma/client';
 import prisma from '@codebinx/db';
 import { nanoid } from 'nanoid'
 import * as bcrypt from 'bcryptjs'
 
-type CreateBinDTO = {
-    title: string
-    description?: string | null
-    content: string
-    language: string
-    authorId?: string | null
-    isPrivate?: boolean
-    expiresAt?: Date | null
-    password?: string | null
-}
-
 export class BinService {
-    static async create(data: CreateBinDTO) {
+    static async create(data: Prisma.BinCreateInput) {
         const { password, ...rest } = data
         return prisma.bin.create({
             data: {
@@ -72,7 +62,6 @@ export class BinService {
     static async update(binId: string, authorClerkId: string, data: Partial<Pick<Prisma.BinUpdateInput, 'title' | 'description' | 'content' | 'language' | 'isPrivate' | 'password'>>) {
         const existingBin = await prisma.bin.findUnique({
             where: { binId },
-            select: { authorId: true },
         })
 
         if (!existingBin || existingBin.authorId !== authorClerkId) {

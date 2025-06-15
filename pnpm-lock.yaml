@@ -4,6 +4,9 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
+overrides:
+  '@prisma/client': ^6.9.0
+
 importers:
 
   .:
@@ -95,9 +98,6 @@ importers:
       tailwind-merge:
         specifier: ^3.3.1
         version: 3.3.1
-      zod-prisma-types:
-        specifier: ^3.2.4
-        version: 3.2.4(@prisma/client@6.9.0(prisma@6.9.0(typescript@5.8.3))(typescript@5.8.3))(prisma@6.9.0(typescript@5.8.3))
     devDependencies:
       '@eslint/eslintrc':
         specifier: ^3
@@ -167,10 +167,17 @@ importers:
         version: 3.25.64
 
   packages/db:
+    dependencies:
+      '@prisma/client':
+        specifier: ^6.9.0
+        version: 6.9.0(prisma@6.9.0(typescript@5.8.3))(typescript@5.8.3)
     devDependencies:
       prisma:
         specifier: ^6.9.0
         version: 6.9.0(typescript@5.8.3)
+      zod-prisma-types:
+        specifier: ^3.2.4
+        version: 3.2.4(@prisma/client@6.9.0(prisma@6.9.0(typescript@5.8.3))(typescript@5.8.3))(prisma@6.9.0(typescript@5.8.3))
 
   packages/logger:
     dependencies:
@@ -2948,7 +2955,7 @@ packages:
     resolution: {integrity: sha512-S4spVBMJAmecLv+aLyRhXK26qW9nWwcsOf1H1fRcEmiI8DPbftZ99u0fhqHlymuTpmMcUpuKxcNNOIqNY0ScSQ==}
     hasBin: true
     peerDependencies:
-      '@prisma/client': ^4.x.x || ^5.x.x || ^6.x.x
+      '@prisma/client': ^6.9.0
       prisma: ^4.x.x || ^5.x.x || ^6.x.x
 
   zod@3.25.64:
