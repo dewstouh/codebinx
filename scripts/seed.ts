@@ -1,13 +1,13 @@
-import { faker } from '@faker-js/faker'
-import prisma from 'packages/db/prisma'
+import { faker } from '@faker-js/faker';
+import prisma from '@codebinx/db'
 
 async function main() {
-    console.log('⏳ Eliminando datos anteriores...')
+    console.log('⏳ Deleting previous data...')
     await prisma.comment.deleteMany()
     await prisma.bin.deleteMany()
     await prisma.user.deleteMany()
 
-    console.log('✅ Base de datos limpia. Generando datos...')
+    console.log('✅ Cleared database, generating new data...')
 
     const users = []
 
@@ -62,12 +62,12 @@ async function main() {
         })
     }
 
-    console.log('🚀 Datos generados con éxito.')
+    console.log('🚀 Data ready.')
 }
 
 main()
     .catch((err) => {
-        console.error('❌ Error al generar datos:', err)
+        console.error('❌ Error generating data:', err)
         process.exit(1)
     })
     .finally(() => process.exit())
