@@ -19,7 +19,6 @@
     "graphql-yoga": "^5.13.5",
     "zod": "^3.25.64",
     "@codebinx/core": "workspace:*",
-    "@codebinx/validation": "workspace:*",
     "@codebinx/db": "workspace:*"
   },
   "devDependencies": {

@@ -12,8 +12,7 @@
     "seed": "pnpm --filter @codebinx/scripts run seed",
     "lint": "pnpm -r run lint",
     "build": "pnpm -r run build",
-    "db": "dotenv -e .env -- pnpm --filter \"@codebinx/db\" run",
-    "db:migrate": "dotenv -e .env -- pnpm --filter \"@codebinx/db\" run migrate:dev"
+    "db": "dotenv -e .env -- pnpm --filter \"@codebinx/db\" run"
   },
   "keywords": [],
   "author": "",
@@ -35,6 +34,7 @@
     "eslint": "^9.29.0",
     "eslint-config-next": "15.3.3",
     "tsx": "^4.20.3",
+    "typescript": "^5.8.3",
     "vitest": "^3.2.3"
   }
 }
