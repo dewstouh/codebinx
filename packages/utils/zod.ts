@@ -27,13 +27,3 @@ export function parseOrThrow<T>(schema: ZodSchema<T>, data: unknown): T {
     }
     return result.data
 }
-
-export function parseOrResponse<T>(schema: ZodSchema<T>, data: unknown) {
-    const result = schema.safeParse(data)
-    if (!result.success) {
-        const issues = result.error.flatten().fieldErrors
-        return Response.json({ error: 'Invalid input', issues }, { status: 400 })
-    }
-
-    return result.data
-  }
