@@ -7,7 +7,7 @@ import { redirect } from 'next/navigation'
 
 export class BinAction {
     static async create(rawData: unknown, authorClerkId: string) {
-        const parsed = parse(BinFormSchema, rawData)
+        const parsed = parse(BinFormSchema.Create, rawData)
         if (!parsed.success) return { success: false, issues: parsed.issues }
 
         try {
@@ -25,7 +25,7 @@ export class BinAction {
     }
 
     static async update(binId: string, rawData: unknown, authorClerkId: string) {
-        const parsed = parseOrError(Zod.Forms.BinSchema.Update, rawData)
+        const parsed = parse(BinFormSchema.Update, rawData)
         if (!parsed.success) return { success: false, issues: parsed.issues }
 
         try {
@@ -50,7 +50,7 @@ export class BinAction {
     }
 
     static async unlock(binId: string, rawData: unknown) {
-        const parsed = parseOrError(Zod.Forms.BinSchema.Unlock, rawData)
+        const parsed = parse(BinFormSchema.Unlock, rawData)
         if (!parsed.success) return { success: false, issues: parsed.issues }
 
         const isValid = await BinService.checkBinPassword(binId, parsed.data.password)
