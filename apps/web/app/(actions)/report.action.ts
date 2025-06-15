@@ -1,19 +1,20 @@
 'use server'
 
-import { ReportService } from '@/packages/core/services/report.service'
-import { parseOrError } from '@/packages/core/validations/zod'
-import { Zod } from '@/packages/core/zod'
+import { parse } from "@/lib/validation"
+import { ReportFormSchemas } from "@/validations/forms/report.schema"
+import { ReportService } from "@codebinx/core"
+
 
 export class ReportAction {
-    static async report(rawData: unknown, authorClerkId: string) {
-        const parsed = parseOrError(Zod.Forms.ReportSchema.Create, rawData)
+    static async report(rawData: unknown, authorId: string) {
+        const parsed = parse(ReportFormSchemas.Create, rawData)
         if (!parsed.success) return { success: false, issues: parsed.issues }
 
         await ReportService.create({
             targetType: parsed.data.targetType,
             targetId: parsed.data.targetId,
             reason: parsed.data.reason,
-            authorClerkId,
+            authorId,
         })
 
         return { success: true, message: 'Report submitted' }

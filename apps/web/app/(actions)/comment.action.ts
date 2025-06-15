@@ -1,12 +1,12 @@
 'use server'
 
-import { parseOrError } from '@/lib/zod'
-import { CommentService } from '@/packages/core/services/comment.service'
-import { Zod } from '@/packages/core/zod'
+import { parse } from "@/lib/validation"
+import { CommentFormSchema } from "@/validations/forms/comment.schema"
+import { CommentService } from "@codebinx/core"
 
 export class CommentAction {
     static async create(rawData: unknown, authorClerkId: string) {
-        const parsed = parseOrError(Zod.Forms.CommentSchema.Create, rawData)
+        const parsed = parse(CommentFormSchema.Create, rawData)
         if (!parsed.success) return { success: false, issues: parsed.issues }
 
         return CommentService.create({
@@ -20,7 +20,7 @@ export class CommentAction {
     }
 
     static async update(commentId: string, rawData: unknown) {
-        const parsed = parseOrError(Zod.Forms.CommentSchema.Create, rawData)
+        const parsed = parse(CommentFormSchema.Update, rawData)
         if (!parsed.success) return { success: false, issues: parsed.issues }
 
         return CommentService.update(commentId, parsed.data.content)

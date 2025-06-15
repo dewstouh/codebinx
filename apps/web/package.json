@@ -3,13 +3,14 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --turbopack",
+    "dev": "dotenv -e ../../.env next dev --turbopack",
     "build": "next build",
-    "start": "next start",
+    "start": "dotenv -e ../../.env next start",
     "lint": "next lint"
   },
   "dependencies": {
     "@clerk/nextjs": "^6.22.0",
+    "@codebinx/core": "workspace:*",
     "@hookform/resolvers": "^5.1.1",
     "@radix-ui/react-alert-dialog": "^1.1.14",
     "@radix-ui/react-avatar": "^1.1.10",

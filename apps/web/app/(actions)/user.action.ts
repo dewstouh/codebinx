@@ -1,11 +1,11 @@
-import { parseOrError } from "@/lib/zod"
-import { UserService } from "@/packages/core/services/user.service"
-import { Zod } from "@/packages/core/zod"
+import { parse } from "@/lib/validation"
+import { UserFormSchema } from "@/validations/forms/user.schema"
+import { UserService } from "@codebinx/core"
 import { revalidatePath } from "next/cache"
 
 export class UserActions {
     static async updateProfile(rawData: unknown, clerkUserId: string) {
-        const parsed = parseOrError(Zod.Forms.UserSchema.Update, rawData)
+        const parsed = parse(UserFormSchema.Update, rawData)
         if (!parsed.success) return { success: false, issues: parsed.issues }
 
         try {

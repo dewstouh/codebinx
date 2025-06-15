@@ -4,6 +4,7 @@ import { BinFormSchema } from '@/validations/forms/bin.schema'
 import { revalidatePath } from 'next/cache'
 import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
+import { BinService } from '@codebinx/core'
 
 export class BinAction {
     static async create(rawData: unknown, authorClerkId: string) {
@@ -11,7 +12,7 @@ export class BinAction {
         if (!parsed.success) return { success: false, issues: parsed.issues }
 
         try {
-            const bin = await BinService.createBin({
+            const bin = await BinService.create({
                 ...parsed.data,
                 author: { connect: { clerkUserId: authorClerkId } },
             })
@@ -29,7 +30,7 @@ export class BinAction {
         if (!parsed.success) return { success: false, issues: parsed.issues }
 
         try {
-            await BinService.updateBin(binId, authorClerkId, parsed.data)
+            await BinService.update(binId, authorClerkId, parsed.data)
             revalidatePath(`/bin/${binId}`)
             return { success: true }
         } catch (err) {
@@ -40,7 +41,7 @@ export class BinAction {
 
     static async delete(binId: string, authorClerkId: string) {
         try {
-            await BinService.deleteBin(binId, authorClerkId)
+            await BinService.delete(binId, authorClerkId)
             revalidatePath('/dashboard')
             return { success: true }
         } catch (err) {
@@ -53,7 +54,7 @@ export class BinAction {
         const parsed = parse(BinFormSchema.Unlock, rawData)
         if (!parsed.success) return { success: false, issues: parsed.issues }
 
-        const isValid = await BinService.checkBinPassword(binId, parsed.data.password)
+        const isValid = await BinService.checkPassword(binId, parsed.data.password)
 
         if (!isValid) {
             return {
@@ -75,6 +76,6 @@ export class BinAction {
     }
 
     static async get(binId: string) {
-        return BinService.getCompleteBin(binId)
+        return BinService.getComplete(binId)
     }
 }

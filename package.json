@@ -12,7 +12,8 @@
     "seed": "pnpm --filter @codebinx/scripts run seed",
     "lint": "pnpm -r run lint",
     "build": "pnpm -r run build",
-    "db": "dotenv -e .env -- pnpm --filter \"@codebinx/db\" run"
+    "db": "dotenv -e .env -- pnpm --filter \"@codebinx/db\" run",
+    "web:dev": "pnpm --filter web dev"
   },
   "keywords": [],
   "author": "",

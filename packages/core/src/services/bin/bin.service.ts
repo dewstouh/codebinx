@@ -4,7 +4,7 @@ import { nanoid } from 'nanoid'
 import * as bcrypt from 'bcryptjs'
 
 export class BinService {
-    static async create(data: Prisma.BinCreateInput) {
+    static async create(data: Omit<Prisma.BinCreateInput, 'binId'>) {
         const { password, ...rest } = data
         return prisma.bin.create({
             data: {

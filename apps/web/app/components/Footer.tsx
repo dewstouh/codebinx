@@ -2,7 +2,7 @@
 
 import Link from "next/link"
 import { Code } from "lucide-react"
-import project from "@/config/project"
+import project from "@/constants/meta"
 
 export function Footer() {
     return (

@@ -73,8 +73,8 @@ export class UserService {
             orderBy: { createdAt: 'desc' },
         })
 
-        const binComments = comments.filter(c => c.targetType === 'bin')
-        const profileComments = comments.filter(c => c.targetType === 'profile')
+        const binComments = comments.filter(c => c.targetType === 'bin') as typeof comments
+        const profileComments = comments.filter(c => c.targetType === 'profile') as typeof comments
 
         return {
             ...user,
