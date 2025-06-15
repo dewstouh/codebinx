@@ -34,7 +34,7 @@ async function main() {
                     content: faker.lorem.paragraph(),
                     language: faker.helpers.arrayElement(['javascript', 'typescript', 'python']),
                     isPrivate: false,
-                    authorClerkId: user.clerkUserId,
+                    authorId: user.clerkUserId,
                 },
             })
 
@@ -43,7 +43,7 @@ async function main() {
             await prisma.comment.create({
                 data: {
                     content: faker.lorem.sentence(),
-                    authorClerkId: randomUser.clerkUserId,
+                    authorId: randomUser.clerkUserId,
                     targetType: 'bin',
                     targetId: bin.id,
                 },
@@ -55,9 +55,9 @@ async function main() {
         await prisma.comment.create({
             data: {
                 content: faker.lorem.sentence(),
-                authorClerkId: commenter.clerkUserId,
+                authorId: commenter.clerkUserId,
                 targetType: 'profile',
-                targetId: user.id,
+                targetId: user.clerkUserId,
             },
         })
     }
