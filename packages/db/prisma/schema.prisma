@@ -4,7 +4,7 @@ generator client {
 
 generator zod {
   provider                  = "zod-prisma-types"
-  output                    = "../../schemas/generated"
+  output                    = "../../schemas/src/generated"
   createRelationValuesTypes = "true"
 }
 
