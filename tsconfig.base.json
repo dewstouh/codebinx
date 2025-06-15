@@ -1,0 +1,19 @@
+{
+    "compilerOptions": {
+        "baseUrl": ".",
+        "paths": {
+            "@codebinx/core": [
+                "packages/core/index"
+            ],
+            "@codebinx/core/*": [
+                "packages/core/*"
+            ],
+            "@codebinx/db": [
+                "packages/db/index"
+            ],
+            "@codebinx/db/*": [
+                "packages/db/*"
+            ]
+        }
+    }
+}

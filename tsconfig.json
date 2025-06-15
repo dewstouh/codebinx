@@ -1,21 +1,32 @@
 {
+    "extends": "./tsconfig.base.json",
+    "files": [],
+    "references": [
+        {
+            "path": "packages/core"
+        },
+        {
+            "path": "packages/db"
+        },
+        {
+            "path": "packages/logger"
+        },
+        {
+            "path": "packages/schemas"
+        },
+        {
+            "path": "apps/api"
+        },
+        {
+            "path": "apps/web"
+        }
+    ],
     "compilerOptions": {
         "target": "ES2020",
         "moduleResolution": "node",
         "strict": true,
         "skipLibCheck": true,
         "baseUrl": ".",
-        "paths": {
-            "@codebinx/db": [
-                "packages/db/index.ts"
-            ],
-            "@codebinx/core/*": [
-                "packages/core/*"
-            ],
-            "@codebinx/utils/*": [
-                "packages/utils/*"
-            ],
-        }
     },
     "exclude": [
         "node_modules",

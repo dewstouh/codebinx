@@ -1,5 +1,4 @@
 'use server'
-
 import { parse } from '@/lib/validation'
 import { BinFormSchema } from '@/validations/forms/bin.schema'
 import { revalidatePath } from 'next/cache'
