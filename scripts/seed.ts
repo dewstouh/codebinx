@@ -1,5 +1,5 @@
-import prisma from '@/packages/db/prisma'
 import { faker } from '@faker-js/faker'
+import prisma from 'packages/db/prisma'
 
 async function main() {
     console.log('⏳ Eliminando datos anteriores...')

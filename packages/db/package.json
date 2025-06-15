@@ -1,0 +1,10 @@
+{
+    "name": "@codebinx/db",
+    "version": "0.0.0",
+    "scripts": {
+        "generate": "prisma generate",
+        "migrate:dev": "prisma migrate dev",
+        "migrate:deploy": "prisma migrate deploy",
+        "postinstall": "pnpm --filter @codebinx/db run generate"
+    }
+}

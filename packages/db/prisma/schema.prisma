@@ -3,8 +3,8 @@ generator client {
 }
 
 generator zod {
-  provider                  = "zod-prisma-types"
-  output                    = "../zod/prisma"
+  provider = "zod-prisma-types"
+  output   = "../../core/zod/prisma"
   createRelationValuesTypes = "true"
 }
 

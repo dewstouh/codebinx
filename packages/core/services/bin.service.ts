@@ -1,7 +1,7 @@
-import prisma from '@/packages/db/prisma';
+import prisma from '@codebinx/db';
 import { Prisma } from '@prisma/client';
-import bcrypt from 'bcrypt'
 import { nanoid } from 'nanoid'
+import * as bcrypt from 'bcryptjs'
 
 export class BinService {
     static async createBin(data: Omit<Prisma.BinCreateInput, 'binId'>) {

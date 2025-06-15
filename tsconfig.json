@@ -6,11 +6,11 @@
         "skipLibCheck": true,
         "baseUrl": ".",
         "paths": {
-            "@codebinx/core/*": [
-                "packages/core/*"
-            ],
             "@codebinx/db": [
                 "packages/db/index.ts"
+            ],
+            "@codebinx/core/*": [
+                "packages/core/*"
             ],
             "@codebinx/utils/*": [
                 "packages/utils/*"

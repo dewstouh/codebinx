@@ -1,0 +1,10 @@
+{
+    "name": "@codebinx/logger",
+    "version": "0.0.0",
+    "main": "index.ts",
+    "private": true,
+    "type": "module",
+    "dependencies": {
+        "pino": "^9.7.0"
+    }
+}

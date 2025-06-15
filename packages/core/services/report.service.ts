@@ -1,4 +1,4 @@
-import prisma from '@/packages/db/prisma';
+import prisma from '@codebinx/db';
 import { Prisma } from '@prisma/client';
 
 
