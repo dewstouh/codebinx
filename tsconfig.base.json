@@ -3,16 +3,16 @@
         "baseUrl": ".",
         "paths": {
             "@codebinx/core": [
-                "packages/core/index"
+                "packages/core/src/index"
             ],
             "@codebinx/core/*": [
-                "packages/core/*"
+                "packages/core/src/*"
             ],
             "@codebinx/db": [
-                "packages/db/index"
+                "packages/db/src/index"
             ],
             "@codebinx/db/*": [
-                "packages/db/*"
+                "packages/db/src/*"
             ]
         }
     }

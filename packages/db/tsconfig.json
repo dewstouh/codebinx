@@ -2,9 +2,16 @@
     "extends": "../../tsconfig.base.json",
     "compilerOptions": {
         "composite": true,
+        "rootDir": "src",
         "outDir": "dist",
-        "types": [
-            "node"
+        "strict": true,
+        "target": "es2020",
+        "module": "esnext",
+        "moduleResolution": "bundler",
+        "resolveJsonModule": true,
+        "lib": [
+            "ES2020",
+            "DOM"
         ]
     },
     "include": [
