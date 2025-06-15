@@ -68,7 +68,7 @@ export class UserService {
 
         const comments = await prisma.comment.findMany({
             where: {
-                authorClerkId: clerkUserId,
+                authorId: clerkUserId,
             },
             orderBy: { createdAt: 'desc' },
         })
