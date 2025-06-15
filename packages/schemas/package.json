@@ -1,11 +1,11 @@
 {
-  "name": "schemas",
+  "name": "@codebinx/schemas",
   "version": "1.0.0",
   "description": "",
   "private": true,
   "main": "index.js",
   "scripts": {
-    "gen": "pnpx prisma generate"
+    "gen": "pnpm -F @codebinx/db run generate"
   },
   "keywords": [],
   "author": "",
@@ -13,5 +13,8 @@
   "packageManager": "pnpm@10.12.1",
   "dependencies": {
     "zod": "^3.25.64"
+  },
+  "devDependencies": {
+    "@prisma/client": "^6.9.0"
   }
 }

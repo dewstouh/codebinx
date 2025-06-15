@@ -264,6 +264,10 @@ importers:
       zod:
         specifier: ^3.25.64
         version: 3.25.64
+    devDependencies:
+      '@prisma/client':
+        specifier: ^6.9.0
+        version: 6.9.0(prisma@6.9.0(typescript@5.8.3))(typescript@5.8.3)
 
 packages:
 
