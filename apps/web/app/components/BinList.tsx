@@ -5,9 +5,10 @@ import { Code } from 'lucide-react'
 import Link from 'next/link'
 import React from 'react'
 import { BinWithRelations } from '@codebinx/schemas'
+import { GetBinsResponse } from '@codebinx/core'
 
 interface PageProps {
-    binResponsePromise: Promise<BinWithRelations[]>;
+    binResponsePromise: Promise<GetBinsResponse>;
 }
 
 export default async function BinList({ binResponsePromise }: PageProps) {
