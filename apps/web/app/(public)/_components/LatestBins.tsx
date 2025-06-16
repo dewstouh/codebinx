@@ -5,6 +5,7 @@ import MotionWrapper from "@/app/components/MotionWrapper"
 import { Suspense } from "react"
 import BinSkeleton from "@/app/components/BinSkeleton"
 import { BinAction } from "@/app/(actions)/bin.action"
+import BinList from "@/app/components/BinList"
 
 
 export function LatestBinsSection() {
