@@ -7,7 +7,8 @@
         "migrate:dev": "prisma migrate dev",
         "migrate:reset": "prisma migrate reset",
         "migrate:deploy": "prisma migrate deploy",
-        "studio": "prisma studio"
+        "studio": "prisma studio",
+        "seed": "tsx src/scripts/seed.ts"
     },
     "dependencies": {
         "@prisma/client": "6.9.0",
@@ -16,6 +17,7 @@
     "devDependencies": {
         "@types/node": "^20.19.0",
         "prisma": "^6.9.0",
-        "zod-prisma-types": "^3.2.4"
+        "zod-prisma-types": "^3.2.4",
+        "@faker-js/faker": "^9.8.0"
     }
 }

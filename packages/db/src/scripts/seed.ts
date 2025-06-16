@@ -16,7 +16,7 @@ async function main() {
             data: {
                 clerkUserId: `user_${i}`,
                 email: faker.internet.email(),
-                username: faker.internet.userName(),
+                username: faker.internet.username(),
                 avatarUrl: faker.image.avatar(),
             },
         })
