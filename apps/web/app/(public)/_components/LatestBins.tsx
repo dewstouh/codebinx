@@ -4,11 +4,12 @@ import { Button } from "@/app/components/ui/button"
 import MotionWrapper from "@/app/components/MotionWrapper"
 import { Suspense } from "react"
 import BinSkeleton from "@/app/components/BinSkeleton"
+import { BinAction } from "@/app/(actions)/bin.action"
 
 
-export async function LatestBinsSection() {
-
-    // const bins = getBins();
+export function LatestBinsSection() {
+    
+    const binResponsePromise = BinAction.getAll()
 
     return (
         <section className="min-h-screen flex items-center justify-center py-20 px-6 lg:px-8 bg-gray-50">
@@ -35,7 +36,7 @@ export async function LatestBinsSection() {
                     viewport={{ once: true }}
                 >
                     <Suspense fallback={<BinSkeleton />}>
-                        {/* <BinList binResponsePromise={bins} /> */}
+                        <BinList binResponsePromise={binResponsePromise} />
                     </Suspense>
 
 

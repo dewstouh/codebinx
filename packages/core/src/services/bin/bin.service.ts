@@ -47,6 +47,18 @@ export class BinService {
         }
     }
 
+    static async getAllPublicBinsWithAuthor() {
+        return await prisma.bin.findMany({
+            where: {
+                isPrivate: false,
+                password: null,
+            },
+            include: {
+                author: true
+            },
+        })
+    }
+
     static async checkPassword(binId: string, inputPassword: string): Promise<boolean> {
         const bin = await prisma.bin.findUnique({
             where: { binId },

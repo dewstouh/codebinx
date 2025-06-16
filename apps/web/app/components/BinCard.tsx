@@ -1,9 +1,8 @@
 import { Badge } from "@/app/components/ui/badge"
 import { Card } from "@/app/components/ui/card"
 import { Eye, User, Clock, ExternalLink, MoreHorizontal, Edit, Trash2 } from "lucide-react"
-import { getLanguageColor } from "@/lib/utils"
+import { getLanguageColor } from "@/lib/web-utils"
 import Link from "next/link"
-import { BinWithRelations } from "@/packages/core/zod/prisma"
 import {formatDistanceToNow} from 'date-fns';
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator } from "@/app/components/ui/dropdown-menu"
 import { Button } from "@/app/components/ui/button"

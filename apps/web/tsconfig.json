@@ -38,8 +38,11 @@
       "@codebinx/db/*": [
         "../../packages/db/src/*"
       ],
+      "@codebinx/schemas": [
+        "../../packages/schemas/src/index"
+      ],
       "@codebinx/schemas/*": [
-        "../../packages/schemas/*"
+        "../../packages/schemas/src/*"
       ],
       "@/*": [
         "./*"

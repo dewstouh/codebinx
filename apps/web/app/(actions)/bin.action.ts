@@ -78,4 +78,8 @@ export class BinAction {
     static async get(binId: string) {
         return BinService.getComplete(binId)
     }
+
+    static async getAll() {
+        return BinService.getAllPublicBinsWithAuthor()
+    }
 }
