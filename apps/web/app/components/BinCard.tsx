@@ -6,8 +6,9 @@ import Link from "next/link"
 import {formatDistanceToNow} from 'date-fns';
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator } from "@/app/components/ui/dropdown-menu"
 import { Button } from "@/app/components/ui/button"
+import { BinWithAuthor } from "@codebinx/core"
 
-export default function BinCard({ bin }: { bin: BinWithRelations }) {
+export default function BinCard({ bin }: { bin: BinWithAuthor }) {
     return (
         <Link href={`/bins/${bin.binId}`}>
             <Card className="h-full flex flex-col justify-between p-6 rounded-2xl shadow-sm hover:shadow-md transition-shadow duration-200 border-0">
