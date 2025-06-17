@@ -1,22 +1,61 @@
+import { describe, it, expect, beforeEach, vi } from 'vitest'
+
+// Setup mocks before imports
+vi.mock('@codebinx/db', () => ({
+    default: {
+        bin: {
+            create: vi.fn(),
+            findUnique: vi.fn(),
+            findMany: vi.fn(),
+            update: vi.fn(),
+            delete: vi.fn(),
+        },
+        comment: {
+            findMany: vi.fn(),
+        },
+    }
+}))
+
+vi.mock('bcryptjs', () => ({
+    hash: vi.fn(),
+    compare: vi.fn(),
+}))
+
+vi.mock('nanoid', () => ({
+    nanoid: vi.fn()
+}))
+
 import { BinService } from '@codebinx/core'
-import { mockBcrypt, mockNanoid, mockPrisma, resetAllMocks } from '../setup/bin-service'
-import { describe, it, expect, beforeEach } from 'vitest'
+import prisma from '@codebinx/db'
+import * as bcrypt from 'bcryptjs'
+import { nanoid } from 'nanoid'
+
+// Get the mocked instances
+const mockPrisma = prisma as any
+const mockBcrypt = bcrypt as any
+const mockNanoid = nanoid as any
 
 describe('BinService.create', () => {
     beforeEach(() => {
-        resetAllMocks()
+        vi.clearAllMocks()
     })
 
     it('should create a bin without password', async () => {
         const mockBinId = 'abc123defg'
         const mockCreatedBin = {
-            id: 1,
+            id: 'cuid_example_1',
             binId: mockBinId,
             title: 'Test Bin',
+            description: null,
             content: 'console.log("hello")',
             language: 'javascript',
-            authorId: 'user123',
+            views: 0,
+            expiresAt: null,
+            createdAt: new Date(),
+            updatedAt: new Date(),
+            isPrivate: false,
             password: null,
+            authorId: null,
         }
 
         mockNanoid.mockReturnValue(mockBinId)
@@ -26,7 +65,7 @@ describe('BinService.create', () => {
             title: 'Test Bin',
             content: 'console.log("hello")',
             language: 'javascript',
-            authorId: 'user123',
+            authorId: null,
         }
 
         const result = await BinService.create(data)
@@ -46,13 +85,19 @@ describe('BinService.create', () => {
         const mockBinId = 'abc123defg'
         const mockHashedPassword = 'hashedpassword123'
         const mockCreatedBin = {
-            id: 1,
+            id: 'cuid_example_2',
             binId: mockBinId,
             title: 'Test Bin',
+            description: null,
             content: 'console.log("hello")',
             language: 'javascript',
-            authorId: 'user123',
+            views: 0,
+            expiresAt: null,
+            createdAt: new Date(),
+            updatedAt: new Date(),
+            isPrivate: false,
             password: mockHashedPassword,
+            authorId: null,
         }
 
         mockNanoid.mockReturnValue(mockBinId)
@@ -63,7 +108,7 @@ describe('BinService.create', () => {
             title: 'Test Bin',
             content: 'console.log("hello")',
             language: 'javascript',
-            authorId: 'user123',
+            authorId: null,
             password: 'plainpassword',
         }
 
@@ -75,7 +120,7 @@ describe('BinService.create', () => {
                 title: 'Test Bin',
                 content: 'console.log("hello")',
                 language: 'javascript',
-                authorId: 'user123',
+                authorId: null,
                 password: mockHashedPassword,
                 binId: mockBinId,
             },
