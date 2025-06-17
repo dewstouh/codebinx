@@ -5,7 +5,8 @@
   "private": true,
   "composite": true,
   "scripts": {
-    "gen": "pnpm -F @codebinx/db run generate"
+    "gen": "pnpm -F @codebinx/db run generate",
+    "test": "vitest run --coverage"
   },
   "exports": {
     ".": {

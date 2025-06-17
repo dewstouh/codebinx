@@ -8,7 +8,8 @@
         "migrate:reset": "prisma migrate reset",
         "migrate:deploy": "prisma migrate deploy",
         "studio": "prisma studio",
-        "seed": "tsx src/scripts/seed.ts"
+        "seed": "tsx src/scripts/seed.ts",
+        "test": "vitest run --coverage"
     },
     "dependencies": {
         "@prisma/client": "6.9.0",

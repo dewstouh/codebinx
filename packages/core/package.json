@@ -3,12 +3,8 @@
     "version": "0.0.0",
     "private": true,
     "composite": true,
-    "exports": {
-        ".": {
-            "require": "./dist/index.js",
-            "import": "./dist/index.js",
-            "types": "./dist/index.d.ts"
-        }
+    "scripts": {
+        "test": "vitest run --coverage"
     },
     "dependencies": {
         "@codebinx/db": "workspace:^",
@@ -17,6 +13,7 @@
         "zod": "^3.25.64"
     },
     "devDependencies": {
-        "@prisma/client": "^6.9.0"
+        "@prisma/client": "^6.9.0",
+        "dotenv": "^16.5.0"
     }
 }
